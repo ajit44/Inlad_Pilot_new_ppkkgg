@@ -1,0 +1,26 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=4F:B8:4D:91:FB:C6:E5:D0:82:4C:E3:26:30:FE:E3:55:0A:03:C7:62%3Bcom.inland.pilot.driver.Location
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.inland.pilot.driver.Location
+
+    SHA-1 certificate fingerprint:
+    4F:B8:4D:91:FB:C6:E5:D0:82:4C:E3:26:30:FE:E3:55:0A:03:C7:62
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDu_s-qE6YedrcDLQItJtosZBXcnarI65E</string>
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAcQXQDKsGzPIi0TREfwyTDVqOX1T-zWt4</string>
+</resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_bank_details.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_route.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_trip.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_update_vehicle_details.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_adhar_capture.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_dl.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_forget_pin.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_insurance_capture.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_load_image_list_upload.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_location.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_maps.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_modify_registration.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_navigation.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_on_going_trip.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_origin_of_loads.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_pan.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_permit_capture.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_pin_login.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_pod_image_list_upload.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_pod_list.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_rc_capture.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_registration.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_upcoming_trip.xml" value="0.536" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_vehicle_docs_upload.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/app_bar_navigation.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/bank_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/content_navigation.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_bank_details.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_change_pin.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_dashboard.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_my_trip.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_personal_details.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_route_master.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_trip_details.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/fragment_vehicle_master.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/layout_origan_city_item.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/layout_origan_track_item.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/layout_state_item.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/nav_header_navigation.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/no_internet_layout.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/notification.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/pod_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/register_type_dialog.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/route_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_allotted_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_completed_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_ongoing_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_reach_final_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/user_activated_dialog.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/vehicle_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/verify_otp_dialog.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.536" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

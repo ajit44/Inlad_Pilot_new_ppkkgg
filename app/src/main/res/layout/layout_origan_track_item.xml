@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_state_name_area"
+    android:background="#66CACACA"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="2dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#37474F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginVertical="6dp"
+        android:paddingRight="14dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp">
+
+            <TextView
+                android:id="@+id/tv_load_ref"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="18dp"
+                android:textSize="12dp"
+                android:textColor="@color/black"/>
+
+  <!--  ____Track dots layout-->
+            <TextView
+                android:id="@+id/dot"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/ic_dot1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:elevation="-2dp"
+                android:id="@+id/line1"
+                app:layout_constraintTop_toBottomOf="@id/dot"
+                app:layout_constraintStart_toStartOf="@id/dot"
+                app:layout_constraintEnd_toEndOf="@id/dot"
+                android:layout_width="0.8dp"
+                android:layout_height="60dp"
+                android:background="#D2E3CB"
+                />
+            <TextView
+                android:id="@+id/dot2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/ic_dot2"
+                app:layout_constraintTop_toBottomOf="@id/dot"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <!--  ____Track source layout-->
+            <TextView
+                android:id="@+id/hint_pick_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textColor="@color/black"
+                android:textSize="12.6sp"
+                android:textStyle="bold"
+                android:text="@string/pick_up"
+                />
+            <TextView
+                android:id="@+id/tv_source_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="2.4dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_pick_up"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textColor="@color/grey_600"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/tv_source_state_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_source_city"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textColor="@color/grey_600"
+                android:textSize="12sp"
+                />
+
+  <!--  ____Track destination layout-->
+            <TextView
+                android:id="@+id/hint_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_source_state_code"
+                app:layout_constraintStart_toEndOf="@id/dot2"
+                android:textColor="@color/black"
+                android:textSize="12.6sp"
+                android:textStyle="bold"
+                android:text="@string/delivery"
+                />
+            <TextView
+                android:id="@+id/tv_dest_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="2.4dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_delivery"
+                app:layout_constraintStart_toEndOf="@id/dot2"
+                android:textColor="@color/grey_600"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/tv_dest_state_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_dest_city"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textColor="@color/grey_600"
+                android:textSize="12sp"
+                />
+
+    <!-- other half -->
+            <TextView
+                android:elevation="-2dp"
+                android:id="@+id/hint_middle_divider"
+                app:layout_constraintTop_toBottomOf="@id/tv_load_ref"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/hint_right_box_area"
+                android:layout_width="0.4dp"
+                android:layout_height="wrap_content"
+                android:background="#D2E3CB"
+                />
+
+
+
+
+            <LinearLayout
+                android:id="@+id/hint_right_box_area"
+                app:layout_constraintTop_toBottomOf="@id/tv_load_ref"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/hint_truck_icon"
+                        android:layout_width="54dp"
+                        android:layout_height="80dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/delivery_truck"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:textColor="@color/grey_500"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_truck_icon" />
+
+                    <TextView
+                        android:id="@+id/hint_divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_marginTop="6dp"
+                        android:background="#D2E3CB"
+                        android:elevation="-2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_weight" />
+
+                    <ImageView
+                        android:id="@+id/hint_box_icon"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/gray_box"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_divider_1" />
+
+                    <TextView
+                        android:id="@+id/tv_docket_contain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="27dp"
+                        android:textColor="#B3000000"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/hint_box_icon"
+                        app:layout_constraintTop_toTopOf="@id/hint_box_icon" />
+
+
+                    <TextView
+                        android:id="@+id/hint_divider_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_marginTop="12dp"
+                        android:background="#D2E3CB"
+                        android:elevation="-2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_docket_contain" />
+
+                    <ImageView
+                        android:id="@+id/hint_calender_icon"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/ic_calender"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_divider_2" />
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="27dp"
+                        android:textColor="#B3000000"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/hint_calender_icon"
+                        app:layout_constraintTop_toTopOf="@id/hint_calender_icon" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toEndOf="@id/hint_calender_icon"
+                        app:layout_constraintTop_toBottomOf="@id/hint_calender_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hint_bottom_layout"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_right_box_area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="3dp"
+                    android:paddingHorizontal="20dp"
+                    android:background="@drawable/ic_blue_border_6_radius"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/bid_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="20dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/bidding"/>
+                    <TextView
+                        android:id="@+id/hint_bid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/bid_img"
+                        android:text="@string/bid"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorPrimary"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="3dp"
+                    android:paddingHorizontal="20dp"
+                    android:background="@drawable/ic_blue_border_6_radius"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/hint_phone_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/hint_contact"
+                        android:src="@drawable/phone"/>
+                    <TextView
+                        android:id="@+id/hint_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/hint_phone_icon"
+                        android:text="@string/contact_us"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorPrimary"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

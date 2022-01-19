@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        app:cardElevation="2dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="#37474F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="5dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp">
+
+            <TextView
+                android:id="@+id/tvTripId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="18dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+            <!--  ____Track dots layout-->
+            <TextView
+                android:id="@+id/dot"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/ic_dot1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:elevation="-2dp"
+                android:id="@+id/line1"
+                app:layout_constraintTop_toBottomOf="@id/dot"
+                app:layout_constraintStart_toStartOf="@id/dot"
+                app:layout_constraintEnd_toEndOf="@id/dot"
+                app:layout_constraintBottom_toTopOf="@+id/dot2"
+                android:layout_width="0.8dp"
+                android:layout_height="70dp"
+                android:background="#D2E3CB"
+                />
+            <TextView
+                android:layout_marginTop="3.2dp"
+                android:id="@+id/dot2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/ic_dot2"
+                app:layout_constraintTop_toTopOf="@id/hint_delivery"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <!--  ____Track source layout-->
+            <TextView
+                android:id="@+id/hint_pick_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textColor="#fff"
+                android:textSize="12.6sp"
+                android:textStyle="bold"
+                android:text="@string/pick_up"
+                />
+            <TextView
+                android:id="@+id/tvSourceCityNstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/hint_pick_up"
+                app:layout_constraintStart_toEndOf="@id/hint_pick_up"
+                android:textColor="#000"
+                android:textSize="13sp"
+                />
+
+            <TextView
+                android:id="@+id/tvSourceAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.4dp"
+                android:layout_marginLeft="14dp"
+                android:text=""
+                android:maxWidth="138dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_pick_up"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textSize="14sp"
+                />
+
+            <!--  ____Track destination layout-->
+            <TextView
+                android:id="@+id/hint_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tvSourceAddress"
+                app:layout_constraintStart_toStartOf="@id/tvSourceAddress"
+                android:textColor="#fff"
+                android:textSize="12.6sp"
+                android:textStyle="bold"
+                android:text="@string/delivery"
+                />
+            <TextView
+                android:id="@+id/tvDestCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginLeft="4dp"
+                app:layout_constraintTop_toTopOf="@id/hint_delivery"
+                app:layout_constraintStart_toEndOf="@id/hint_delivery"
+                android:textColor="#000"
+                android:textSize="13sp"
+                />
+            <TextView
+                android:id="@+id/tvDestAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.4dp"
+                android:layout_marginLeft="14dp"
+                android:text="Andheri J b na"
+                android:maxWidth="138dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_delivery"
+                app:layout_constraintStart_toEndOf="@id/dot"
+                android:textSize="14sp"
+                />
+            <!-- other half -->
+            <TextView
+                android:elevation="-2dp"
+                android:id="@+id/hint_middle_divider"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0.4dp"
+                android:layout_height="140dp"
+                android:background="#D2E3CB"
+                />
+
+
+
+
+            <LinearLayout
+                android:id="@+id/hint_right_box_area"
+                app:layout_constraintTop_toBottomOf="@id/tvTripId"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDestAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/hint_truck_icon"
+                        android:layout_width="54dp"
+                        android:layout_height="80dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/delivery_truck"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/hint_total_km"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_truck_icon"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Total : "
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvTotalKm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:textSize="13sp"
+                            app:layout_constraintStart_toEndOf="@id/hint_total_km"
+                            app:layout_constraintTop_toBottomOf="@id/hint_truck_icon" />
+                        <TextView
+                            android:id="@+id/hint_km"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=" km"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/hint_divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_marginTop="6dp"
+                        android:background="#D2E3CB"
+                        android:elevation="-2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_total_km" />
+
+                    <TextView
+                        android:id="@+id/hintAssignedTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Assigned Time: "
+                        android:layout_marginTop="6dp"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_divider_1" />
+
+                    <TextView
+                        android:id="@+id/tvAssignedTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#E6000000"
+                        android:text="..."
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/hintAssignedTime"
+                        app:layout_constraintTop_toTopOf="@id/hintAssignedTime" />
+
+                    <TextView
+                        android:id="@+id/hint_blur_divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/grey_600"
+                        android:elevation="-2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hintAssignedTime" />
+
+                    <TextView
+                        android:id="@+id/hint_box_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Assigned Date: "
+                        android:layout_marginTop="6dp"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_blur_divider_1" />
+
+                    <TextView
+                        android:id="@+id/tvAssignedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#E6000000"
+                        android:text="13/32/1999"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/hint_box_icon"
+                        app:layout_constraintTop_toTopOf="@id/hint_box_icon" />
+                    <TextView
+                        android:id="@+id/hint_blur_divider_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/grey_600"
+                        android:elevation="-2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_box_icon" />
+
+
+                    <TextView
+                        android:id="@+id/hint_calender_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="Delivery Expected: "
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hint_blur_divider_2" />
+
+                    <TextView
+                        android:id="@+id/tvExpectedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13/33/1999"
+                        android:textColor="#E6000000"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/hint_calender_icon"
+                        app:layout_constraintTop_toTopOf="@id/hint_calender_icon" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toEndOf="@id/hint_calender_icon"
+                        app:layout_constraintTop_toBottomOf="@id/hint_calender_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hint_bottom_layout"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/hint_right_box_area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/acceptButton"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="3dp"
+                    android:paddingHorizontal="20dp"
+                    android:background="@drawable/ic_green_solid_6_radius"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/accept_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/accept_trip"/>
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/hint_bid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/accept_img"
+                        android:text="Accept"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mapButton"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="3dp"
+                    android:paddingHorizontal="20dp"
+                    android:background="@drawable/ic_purple_border_6_radius"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/hint_phone_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/map_icon"/>
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/hint_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/hint_phone_icon"
+                        android:text="Direction"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tripIDTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:textColor="@color/login_textbox_color"
+                    tools:text="Trip ID" />
+
+                <TextView
+                    android:id="@+id/tripToFroTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/login_textbox_color"
+                    tools:text="Location" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trip Date"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tripDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        tools:text="1234" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tripTimeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        tools:text="1234" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start Location"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/startLocTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        tools:text="1234" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End Location"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/endLocTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        tools:text="1234" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/mapBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="View Map" />
+
+            <Button
+                android:id="@+id/acceptBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Accept &amp; Move to Start Location" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

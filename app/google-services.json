@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "373649972992",
+    "project_id": "driverpushnotification-6f9fc",
+    "storage_bucket": "driverpushnotification-6f9fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373649972992:android:47f04873b07f771e419de5",
+        "android_client_info": {
+          "package_name": "com.inland.pilot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kxTqjbDQponaRxTvw3tK3VUZciCKL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373649972992:android:1b5fe95e76c863aa419de5",
+        "android_client_info": {
+          "package_name": "com.inland.pilot.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kxTqjbDQponaRxTvw3tK3VUZciCKL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373649972992:android:66a64409afb7cee4419de5",
+        "android_client_info": {
+          "package_name": "in.inlandworldlogistics.drivermanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kxTqjbDQponaRxTvw3tK3VUZciCKL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373649972992-0qmibkh3og2e1uksk2j7vqskat47r52k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

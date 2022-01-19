@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_dashboard">
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.inland.pilot.Dashboard.DashboardFragment"
+        android:label="@string/dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/nav_vehicle_master"
+        android:name="com.inland.pilot.VehicleMaster.VehicleMasterFragment"
+        android:label="@string/vehicle_master"
+        tools:layout="@layout/fragment_vehicle_master" />
+
+    <fragment
+        android:id="@+id/nav_route_master"
+        android:name="com.inland.pilot.RouteMaster.RouteMasterFragment"
+        android:label="@string/route_master"
+        tools:layout="@layout/fragment_route_master" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.inland.pilot.Profile.PersonalDetailsFragment"
+        android:label="@string/personal_details"
+        tools:layout="@layout/fragment_personal_details" />
+
+    <fragment
+        android:id="@+id/nav_bank_details"
+        android:name="com.inland.pilot.BankDetails.BankDetailsFragment"
+        android:label="@string/bank_details"
+        tools:layout="@layout/fragment_bank_details" />
+
+    <fragment
+        android:id="@+id/nav_change_pin"
+        android:name="com.inland.pilot.Profile.ChangePinFragment"
+        android:label="@string/change_pin"
+        tools:layout="@layout/fragment_change_pin" />
+</navigation>

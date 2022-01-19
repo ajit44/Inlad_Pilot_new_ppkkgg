@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.inland.pilot">
+
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE " />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permission required for Reading Writing SD Card/Memory -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
+    <application
+        android:name=".Base.App"
+        android:allowBackup="true"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DriverManagement"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning,InnerclassSeparator,UnusedAttribute">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/app_logo" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Location.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".Login.ModifyRegistrationActivity"
+            android:exported="true"
+            android:label="Register User"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".OriginOfLoads.OriginOfLoadsActivity"
+            android:exported="true"
+            android:label="@string/origin_of_loads"
+            android:parentActivityName=".NavigationActivity"
+            android:theme="@style/DashboardTheme" />
+        <activity
+            android:name=".pod.PodListActivity"
+            android:label="POD Pending"
+            android:parentActivityName=".NavigationActivity" />
+        <activity
+            android:name=".RouteMaster.AddRouteActivity"
+            android:label="Add Route"
+            android:parentActivityName=".pod.PodListActivity" />
+        <activity
+            android:name=".pod.PodImageCapture"
+            android:exported="false"
+            android:parentActivityName=".pod.PodListActivity" />
+        <activity
+            android:name=".unloading.UnloadingImageCapture"
+            android:label="Unloading Images"
+            android:parentActivityName=".unloading.UnloadingUploadListActivity" />
+        <activity
+            android:name=".Profile.PersonalDetailsActivity"
+            android:exported="false"
+            android:label="Profile"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".Profile.ChangePinActivity"
+            android:exported="false"
+            android:label="Change Pin"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".BankDetails.BankDetailsActivity"
+            android:exported="false"
+            android:label="Bank Details"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".unloading.UnloadingUploadListActivity"
+            android:label="Uploading"
+            android:parentActivityName=".MyTrip.ReachFinalTripListActivity" />
+        <activity
+            android:name=".MyTrip.ReachFinalTripListActivity"
+            android:label="Active Trips"
+            android:parentActivityName=".NavigationActivity" />
+        <activity
+            android:name=".LoadImage.LoadUploadListActivity"
+            android:label="Load Images"
+            android:parentActivityName=".NavigationActivity" />
+        <activity
+            android:name=".LoadImage.LoadImageCapture"
+            android:label="Load Images"
+            android:parentActivityName=".LoadImage.LoadUploadListActivity" />
+        <activity
+            android:name=".MyTrip.OnGoingTripActivity"
+            android:label="On-going Trip"
+            android:parentActivityName=".MyTrip.TripDetailsActivity" />
+        <activity
+            android:name=".MyTrip.UpcomingTripActivity"
+            android:label="My Trip"
+            android:parentActivityName=".MyTrip.TripDetailsActivity" />
+        <activity
+            android:name=".MyTrip.CompletedTripActivity"
+            android:label="Completed Trip"
+            android:parentActivityName=".MyTrip.TripDetailsActivity" />
+
+        <service
+            android:name=".Location.LocationUpdateService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".Location.LocationAlarmScheduler"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".Restarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".VehicleMaster.PermitCapture"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleMaster.InsuranceCapture"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleMaster.RcCapture"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleMaster.VehicleCapture"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleMaster.VehicleDocsUploadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.DlActivity"
+            android:exported="false"
+            android:label="Upload Driving License"
+            android:theme="@style/LoginTheme"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".Profile.PanActivity"
+            android:exported="false"
+            android:label="Upload PAN Details"
+            android:theme="@style/LoginTheme"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".Profile.AdharCapture"
+            android:exported="false"
+            android:label="Upload Adhar Details"
+            android:theme="@style/LoginTheme"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".MyTrip.AddTripActivity"
+            android:label="@string/my_trip"
+            android:parentActivityName=".MyTrip.AddTripActivity" />
+        <activity
+            android:name=".MyTrip.TripDetailsActivity"
+            android:label="@string/my_trip"
+            android:parentActivityName=".NavigationActivity" />
+        <activity
+            android:name=".VehicleMaster.AddUpdateVehicleDetailsActivity"
+            android:label="Add Vehicle Details"
+            android:parentActivityName=".VehicleMaster.AddUpdateVehicleDetailsActivity" />
+        <activity
+            android:name=".NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/Theme.DriverManagement.NoActionBar">
+
+            <!--
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".Location.LocationActivity" />
+        <activity
+            android:name=".BankDetails.AddBankDetailsActivity"
+            android:label="@string/add_bank_details"
+            android:parentActivityName=".BankDetails.AddBankDetailsActivity" />
+        <activity
+            android:name=".Login.PinLoginActivity"
+            android:theme="@style/LoginTheme" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity
+            android:name=".Profile.ProfileActivity"
+            android:label="@string/profile_details"
+            android:parentActivityName=".Profile.ProfileActivity" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Login.ForgetPinActivity"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".Login.RegistrationActivity"
+            android:label="@string/registration"
+            android:parentActivityName=".Login.RegistrationActivity" />
+        <activity
+            android:name=".Login.LoginActivity"
+            android:theme="@style/LoginTheme">
+
+            <!--
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".MainActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
