@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.inland.pilot">
 
-
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -29,11 +30,17 @@
         android:theme="@style/Theme.DriverManagement"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,InnerclassSeparator,UnusedAttribute">
+        <activity
+            android:name=".Login.ForgotOTPActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/app_logo" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
@@ -123,7 +130,7 @@
             android:name=".MyTrip.CompletedTripActivity"
             android:label="Completed Trip"
             android:parentActivityName=".MyTrip.TripDetailsActivity" />
-
+        <!--
         <service
             android:name=".Location.LocationUpdateService"
             android:enabled="true"
@@ -132,7 +139,7 @@
             android:name=".Location.LocationAlarmScheduler"
             android:enabled="true"
             android:exported="true" />
-
+        -->
         <receiver
             android:name=".Restarter"
             android:enabled="true"
@@ -161,20 +168,20 @@
             android:name=".Profile.DlActivity"
             android:exported="false"
             android:label="Upload Driving License"
-            android:theme="@style/LoginTheme"
-            android:parentActivityName=".Profile.ProfileActivity" />
+            android:parentActivityName=".Profile.ProfileActivity"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".Profile.PanActivity"
             android:exported="false"
             android:label="Upload PAN Details"
-            android:theme="@style/LoginTheme"
-            android:parentActivityName=".Profile.ProfileActivity" />
+            android:parentActivityName=".Profile.ProfileActivity"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".Profile.AdharCapture"
             android:exported="false"
             android:label="Upload Adhar Details"
-            android:theme="@style/LoginTheme"
-            android:parentActivityName=".Profile.ProfileActivity" />
+            android:parentActivityName=".Profile.ProfileActivity"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".MyTrip.AddTripActivity"
             android:label="@string/my_trip"
@@ -279,6 +286,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".Location.ExampleJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

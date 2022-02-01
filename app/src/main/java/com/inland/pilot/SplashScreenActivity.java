@@ -3,6 +3,7 @@ package com.inland.pilot;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,7 +39,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
-
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
         mCon = this;
 
         final Handler handler = new Handler();
@@ -108,7 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             TSTATUS = loginModel.getTSTATUS();
                             Log.e("deviceId",deviceIdStr);
                             Log.e("mobile",loginMobileNoStr);
-                            Log.e("pin",mpinModel.getPIN());
+                           // Log.e("pin",mpinModel.getPIN());
                             String registrationStatusStr = loginModel.getRACTIVE();
                             Log.e("response ",registrationStatusStr+"");
                             //  Log.e("token",tokenStr);

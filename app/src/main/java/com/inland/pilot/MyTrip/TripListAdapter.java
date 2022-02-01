@@ -1,7 +1,11 @@
 package com.inland.pilot.MyTrip;
 
+import static android.content.Context.JOB_SCHEDULER_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.inland.pilot.Location.ExampleJobService;
 import com.inland.pilot.Location.LocationAlarmScheduler;
 import com.inland.pilot.Location.LocationUpdateService;
 import com.inland.pilot.Location.MapsActivity;
@@ -112,14 +117,10 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
         holder.binding.tvAssignedDate.setText(dateANDtime[0]);
         holder.binding.tvAssignedTime.setText((dateANDtime[1].length() >5)? dateANDtime[1].substring(0,5):dateANDtime[1]);
         holder.binding.tvExpectedDate.setText(UpcomingTripActivity.getDate(current.getPlacementdt()));
-        if(current.getTP_Active().equals("0"))
-        {
+      //  if(current.getTP_Active().equals("0"))
+
             holder.binding.acceptButton.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.binding.acceptButton.setVisibility(View.INVISIBLE);
-        }
+
         //fetching distance
         double src_longi=0.0;
         double src_lati=0.0;
@@ -211,6 +212,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
                         editor.commit();
 
                         pref.edit().putBoolean("isTripActive", true).commit();
+                        pref.edit().putBoolean("isLocationServiceActive", true).commit();
                         pref.edit().putString("tripno", current.getTripno()).commit();
                         Log.d("tttrrid",current.getTripno());
                         pref.edit().putString("Placementid", current.getPlacementid()).commit();
@@ -225,8 +227,21 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
                         pref.edit().putString("Tp_Active", current.getTP_Active()).commit();
 
 
-                        Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
-                        mCon.startService(mServiceIntent);
+                    //    Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
+                    //    mCon.startService(mServiceIntent);
+                        ComponentName componentName = new ComponentName(mCon, ExampleJobService.class);
+                        JobInfo info = new JobInfo.Builder(123, componentName)
+                                .setPersisted(true)
+                                .setPeriodic(15 * 60 * 1000)
+                                .build();
+
+                        JobScheduler scheduler = (JobScheduler) mCon.getSystemService(JOB_SCHEDULER_SERVICE);
+                        int resultCode = scheduler.schedule(info);
+                        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                            Log.d("TAG", "Job scheduled");
+                        } else {
+                            Log.d("TAG", "Job scheduling failed");
+                        }
 
                         Intent intent_main=new Intent(mCon, UpcomingTripActivity.class);
                         mCon.startActivity(intent_main);

@@ -1,5 +1,9 @@
 package com.inland.pilot.Login;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,10 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidnetworking.AndroidNetworking;
@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     private String TSTATUS;
     private static final int REQUEST_LOCATION = 1;
     private static String[] PERMISSIONS_LOCATION = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
 
     @SuppressLint("HardwareIds")
@@ -87,14 +87,6 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         mCon = this;
-
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        binding.versionCode.setText(" "+pInfo.versionCode);
 
         if (PreferenceUtil.getUser() != null) {
             loginDetailsModel = PreferenceUtil.getUser();
@@ -111,7 +103,13 @@ public class LoginActivity extends AppCompatActivity {
                 loginPinStr = "";
             }
         }
-
+        PackageInfo pInfo = null;
+        try {
+            pInfo = mCon.getPackageManager().getPackageInfo(mCon.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        binding.versionCode.setText(" "+pInfo.versionCode);
         if (PreferenceUtil.getDeviceId() != null && !PreferenceUtil.getDeviceId().isEmpty()) {
             deviceIdStr = PreferenceUtil.getDeviceId();
             Log.d("check", "onCreate: " + deviceIdStr);
@@ -121,6 +119,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity)mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        }
+        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     (Activity)mCon,
                     PERMISSIONS_LOCATION,
@@ -149,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-       /* binding.loginWithOtpTextView.setOnClickListener(new View.OnClickListener() {
+        binding.loginWithOtpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.pinTextLayout.setVisibility(View.GONE);
@@ -158,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                 binding.pinLoginButton.setVisibility(View.GONE);
                 binding.otpLoginButton.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
 
         binding.loginWithPinTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,22 +176,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*binding.registerTextView.setOnClickListener(new View.OnClickListener() {
+        binding.registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mCon, RegistrationActivity.class));
-                finish();
-            }
-        });*/
-
-        binding.forgotPinTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mCon, ForgetPinActivity.class));
-                finish();
+               // startActivity(new Intent(mCon, RegistrationActivity.class));
+               // finish();
+                binding.pinTextLayout.setVisibility(View.GONE);
+                binding.loginWithPinTextView.setVisibility(View.VISIBLE);
+                binding.loginWithOtpTextView.setVisibility(View.GONE);
+                binding.pinLoginButton.setVisibility(View.GONE);
+                binding.otpLoginButton.setVisibility(View.VISIBLE);
             }
         });
-        binding.loginWithOtpTextView.setOnClickListener(new View.OnClickListener() {
+
+        binding.forgotPinTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(mCon, ForgetPinActivity.class));
@@ -197,7 +200,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.pinLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("pin","coo");
                 mobileNoStr = binding.mobileNoEditText.getText().toString().trim();
                 if(mobileNoStr.length()<10)
                 {
@@ -219,6 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                     binding.mobileNoEditText.setError("Enter valid mobile no.");
                     return;
                 }
+                openOtpDialog(mobileNoStr, deviceIdStr);
                 validateMobileNo(mobileNoStr, deviceIdStr, "otpLogin");
             }
         });
@@ -258,7 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                 isValidMobileNo = false;
             }
         } else {
-            binding.mobileNoTextLayout.setError(getResources().getString(R.string.cannot_be_empty));
+            binding.mobileNoTextLayout.setError(getResources().getString(R.string.valid_mobile_no));
             isValidMobileNo = false;
         }
 
@@ -268,10 +271,8 @@ public class LoginActivity extends AppCompatActivity {
                 verifyMobileNo(otpModel, androidDeviceId);
 
             } else if (validateType.equalsIgnoreCase("otpLogin")) {
-               // RequestModel otpModel = new RequestModel(mobileNo);
-               // requestOtp(otpModel, androidDeviceId);
-                startActivity(new Intent(mCon, ForgetPinActivity.class));
-                finish();
+                RequestModel otpModel = new RequestModel(mobileNo);
+                requestOtp(otpModel, androidDeviceId);
             }
         }
     }
@@ -295,11 +296,10 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             binding.pinTextLayout.setError(getResources().getString(R.string.cannot_be_empty));
         }
-        Log.d("pin","coo2 before "+isValidPin+":"+isValidMobileNo+":"+isValidDeviceId);
-        if (isValidPin && isValidMobileNo && isValidDeviceId) {
+
+        if (isValidPin && true && isValidDeviceId) {
             setMpinModel = new SetMpinModel(deviceId, pinStr, mobileNoStr);
             verifyPin(setMpinModel);
-            Log.d("pin","coo2");
         }
     }
 
@@ -344,12 +344,17 @@ public class LoginActivity extends AppCompatActivity {
                 //mobileNo = otpEditText.getText().toString();
                 Log.d("check", "onClick otpStr: " + otpStr);
                 Log.d("check", "onClick mobileNo: " + mobileNo);
-                validateOtp(mobileNo, deviceIdStr, dialog);
+              //  validateOtp(mobileNo, deviceIdStr, dialog);
+                if(otpStr.length()==4){
+                    VerifyOtpModel verifyOtpModel = new VerifyOtpModel(mobileNo, otpStr, otpStr);
+                    Log.d("check", "onClick: " + verifyOtpModel);
+                    verifyOtp(verifyOtpModel, dialog);
+                }
             }
         });
     }
 
-    private void openPinDialog(String mobileNo, String androidDeviceId) {
+    private void openPinDialog(String mobileNo, String androidDeviceId, String type) {
         dialog_pin = new MaterialDialog.Builder(mCon)
                 .title("Set PIN")
                 .customView(R.layout.fragment_change_pin, true)
@@ -380,7 +385,7 @@ public class LoginActivity extends AppCompatActivity {
                 SetMpinModel requestModel = new SetMpinModel(deviceIdStr, new_pin, mobileNoStr);
                 Log.e("device id", deviceIdStr+"");
                 Log.e("mobile no", mobileNoStr+"");
-                setPin(requestModel);
+                setPin(requestModel,type);
 
             }
         });
@@ -437,12 +442,12 @@ public class LoginActivity extends AppCompatActivity {
     private void verifyMobileNo(RequestModel requestModel, String deviceId) {
         Call<VerifyMobileNoResponseModel> call = ApiClient.getNetworkService().verifyMobileNo(requestModel);
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
+      /*  final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
                 .content(R.string.loading)
                 .canceledOnTouchOutside(false)
                 .progress(true, 0)
                 .widgetColorRes(R.color.colorPrimary)
-                .show();
+                .show();*/
 
         call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
             @Override
@@ -473,16 +478,16 @@ public class LoginActivity extends AppCompatActivity {
                                 binding.loginWithOtpTextView.setVisibility(View.VISIBLE);
                             }
                         } else {
-                            Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(mCon, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                     Log.d("check", "onResponse verifyMobileNo: " + response.errorBody());
                 }
-                dialog.dismiss();
+              //  dialog.dismiss();
             }
 
             @Override
@@ -492,7 +497,7 @@ public class LoginActivity extends AppCompatActivity {
                     //Toast.makeText(mCon, "Please check internet connection.", Toast.LENGTH_SHORT).show();
                     Log.e("check", "onFailure: " + t.getMessage());
                 }
-                dialog.dismiss();
+              //  dialog.dismiss();
             }
         });
     }
@@ -537,7 +542,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<RequestOtpResponseModel> call, Throwable t) {
                 if (!call.isCanceled()) {
                     Snackbar.make(binding.linearLayoutView,"Please check internet connection.",Snackbar.LENGTH_LONG).show();
-                   // Toast.makeText(mCon, "Please check internet connection", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(mCon, "Please check internet connection", Toast.LENGTH_SHORT).show();
                     Log.e("check", "onFailure requestOtp: " + t.getMessage());
                 }
                 dialog.dismiss();
@@ -546,6 +551,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verifyOtp(VerifyOtpModel otpModel, MaterialDialog otpDialog) {
+        otpModel.setDeviceId(otpModel.getOtp());
         Call<LoginResponseModel> call = ApiClient.getNetworkService().verifyOtp(otpModel);
 
         final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
@@ -559,6 +565,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
                 if (response.isSuccessful()) {
+                    Log.d("otpData",""+response.body().toString());
                     if (response.body() != null && response.body().getLoginDetailsModels() != null
                             && !response.body().getLoginDetailsModels().isEmpty()) {
                         LoginDetailsModel loginModel = response.body().getLoginDetailsModels().get(0);
@@ -570,7 +577,7 @@ public class LoginActivity extends AppCompatActivity {
                                 messageStr.equalsIgnoreCase("login successfully")) {
 
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                             Log.d("check","mobile no "+otpModel.getP_MobileNo());
+                            Log.d("checkT",loginModel.getTYPE());
                             PreferenceUtil.clearAll();
                             LoginDetailsModel model_login=new LoginDetailsModel(messageStr, tokenStr, registrationStatusStr,
                                     loginModel.getID(), loginModel.getNAME(), loginModel.getS_MOBILENO(),
@@ -587,12 +594,12 @@ public class LoginActivity extends AppCompatActivity {
                             PreferenceUtil.setDeviceId(deviceIdStr);
                             PreferenceUtil.setRegistrationStatus(registrationStatusStr);
                             otpDialog.dismiss();
-                            countDownTimer.cancel();
+                          //  countDownTimer.cancel();
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("mobileNoStr", otpModel.getP_MobileNo()+"");
                             editor.commit();
                             if(already_exists==false) {
-                                openPinDialog(mobileNoStr, deviceIdStr);
+                                openPinDialog(mobileNoStr, deviceIdStr,loginModel.getTYPE());
                             }
                             else
                             {
@@ -602,8 +609,8 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-                                else if(loginModel.getTYPE().equals("")){
-                                    Intent intent = new Intent(mCon, com.inland.pilot.Login.RegistrationActivity.class);
+                                else if(loginModel.getTYPE() == null||loginModel.getTYPE().equals("")){
+                                    Intent intent = new Intent(mCon, RegistrationActivity.class);
                                     intent.putExtra("mobileNo", mobileNoStr);
 
                                     startActivity(intent);
@@ -638,7 +645,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
                 if (!call.isCanceled()) {
                     Snackbar.make(binding.linearLayoutView,"Please check internet connection.",Snackbar.LENGTH_LONG).show();
-                   // Toast.makeText(mCon, "Please check internet connection", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(mCon, "Please check internet connection", Toast.LENGTH_SHORT).show();
                     Log.e("check", "onFailure: " + t.getMessage());
                 }
                 dialog.dismiss();
@@ -653,7 +660,7 @@ public class LoginActivity extends AppCompatActivity {
                 .progress(true, 0)
                 .widgetColorRes(R.color.colorPrimary)
                 .show();
-         final JSONObject request = new JSONObject();
+        final JSONObject request = new JSONObject();
         try {
 
             request.put("P_MobileNo",mpinModel.getP_MobileNo());
@@ -682,11 +689,12 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             data = response.getJSONArray("Table");
 
-                              WHA1=data.getJSONObject(0);
+                            WHA1=data.getJSONObject(0);
                             //Log.v("city_data",WHA1.getString("CityName"));
 
-
-                        if (data.length() >0) {
+                            if(WHA1.toString().contains("Pin not match"))
+                                Toast.makeText(mCon, "Pin not match", Toast.LENGTH_SHORT).show();
+                            else if (data.length() >0) {
                                 LoginDetailsModel loginModel = new LoginDetailsModel(WHA1.getString("MESSAGE"),
                                         WHA1.getString("TOKENNO"),
                                         WHA1.getString("RACTIVE"),
@@ -713,7 +721,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //   Log.e("response ",registrationStatusStr+"");
                                 //    Log.e("token",tokenStr);
                                 //    Log.e("deviceId",deviceIdStr);
-                                if (messageStr.equalsIgnoreCase("login successfully")) {
+                                if (messageStr.equalsIgnoreCase("Login Successfully")) {
                                     PreferenceUtil.clearAll();
                                     /*PreferenceUtil.clearPin();*/
                                     PreferenceUtil.clearToken();
@@ -755,7 +763,7 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 } else {
-                                    Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mCon, "1" + messageStr, Toast.LENGTH_SHORT).show();
                                 }
                             /*if (response.body().getDashboardStatus() != null &&
                                     !response.body().getDashboardStatus().isEmpty()) {
@@ -766,9 +774,10 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
                             }
-                    } catch (JSONException jsonException) {
-                                         jsonException.printStackTrace();
-                                     }
+
+                        } catch (JSONException jsonException) {
+                            jsonException.printStackTrace();
+                        }
                         dialog.dismiss();
 
                     }
@@ -780,10 +789,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void setPin(SetMpinModel mpinModel, String type) {
 
-    private void setPin(SetMpinModel mpinModel) {
-        try {
-            Call<VerifyMobileNoResponseModel> call = ApiClient.getNetworkService().setPin(mpinModel);
+      //  Call<VerifyMobileNoResponseModel> call = ApiClient.getNetworkService().setPin(mpinModel);
 
             final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
                     .content(R.string.loading)
@@ -791,11 +799,90 @@ public class LoginActivity extends AppCompatActivity {
                     .progress(true, 0)
                     .widgetColorRes(R.color.colorPrimary)
                     .show();
+            final JSONObject request = new JSONObject();
+            try {
 
-            call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
+                request.put("P_MobileNo",mpinModel.getP_MobileNo());
+                request.put("PIN",mpinModel.getPIN());
+                request.put("DeviceId",mpinModel.getDeviceId());
+
+                Log.v("awbData",request.toString());
+
+            } catch (JSONException jsonException) {
+                jsonException.printStackTrace();
+            }//
+
+            AndroidNetworking.post("https://api.inland.in/Pilot/api/Driver/Set_Pin")
+                    .addJSONObjectBody(request)
+                    .setTag("test")
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("idgpsupload",response.toString());
+                            JSONArray data = null;
+                            JSONObject  WHA1= null;
+                            try {
+                                data = response.getJSONArray("Table");
+
+                                WHA1=data.getJSONObject(0);
+                                //Log.v("city_data",WHA1.getString("CityName"));
+
+
+                                if (data.length() >0) {
+                                    VerifyMobileNoModel loginModel = new VerifyMobileNoModel(WHA1.getString("MESSAGE"));
+                                    PreferenceUtil.clearPin();
+                                    LoginDetailsModel model_login=new LoginDetailsModel("", "", "",
+                                            "", "", mobileNoStr, "", "", "",
+                                            "", "", "", "", "",
+                                            deviceIdStr, mobileNoStr, "","","");
+                                    model_login.setTSTATUS(TSTATUS);
+                                    PreferenceUtil.setUser(model_login);
+                                    PreferenceUtil.setUserLoggedIn(true);
+                                    PreferenceUtil.setPin(mpinModel.getPIN());
+
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("mobileNoStr", mobileNoStr);
+                                    editor.commit();
+
+                                    Log.e("set pin ",PreferenceUtil.getPin());
+                                    dialog_pin.dismiss();
+                                     if(type == null|| type.equals("")){
+                                        Intent intent = new Intent(mCon, RegistrationActivity.class);
+                                        intent.putExtra("mobileNo", mobileNoStr);
+
+                                        startActivity(intent);
+                                    }else {
+                                         Intent intent = new Intent(mCon, LoginActivity.class);
+                                         intent.putExtra("mobileNo", mobileNoStr);
+                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                         startActivity(intent);
+                                         finish();
+                                     }
+                                } else {
+                                    Toast.makeText(mCon, "" + "something wrong", Toast.LENGTH_SHORT).show();
+                                }
+                             } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Log.d("check", "setMPin: " + e.getMessage());
+                            }
+                        }
+                        //
+                        @Override
+                        public void onError(ANError anError) {
+                            Log.e("ERROR", anError.toString());
+                            dialog.dismiss();
+                        }
+                    });
+         /*   call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
                 @Override
                 public void onResponse(Call<VerifyMobileNoResponseModel> call, Response<VerifyMobileNoResponseModel> response) {
                     if (response.isSuccessful()) {
+                        Log.d("pinRes", response.body().toString());
                         if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
                                 !response.body().getVerifyMobileNoModels().isEmpty()) {
                             String messageStr = response.body().getVerifyMobileNoModels().get(0).getMESSAGE();
@@ -817,10 +904,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Log.e("set pin ",PreferenceUtil.getPin());
                                 dialog_pin.dismiss();
-                                    Intent intent = new Intent(mCon, com.inland.pilot.Login.RegistrationActivity.class);
-                                    intent.putExtra("mobileNo", mobileNoStr);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
+                                Intent intent = new Intent(mCon, RegistrationActivity.class);
+                                intent.putExtra("mobileNo", mobileNoStr);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                                 finish();
                             } else {
                                 Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
@@ -844,11 +931,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     dialog.dismiss();
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("check", "setMPin: " + e.getMessage());
-        }
+            });*/
+
     }
 
     private void resendOtp(RequestModel requestModel, String deviceId) {

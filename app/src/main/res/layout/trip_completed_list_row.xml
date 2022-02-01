@@ -9,7 +9,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="#37474F"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
                 android:layout_marginTop="18dp"
                 android:textSize="12dp"
                 android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
 
             <!--  ____Track dots layout-->
             <TextView
@@ -56,7 +55,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/dot2"
                 android:layout_width="0.8dp"
                 android:layout_height="70dp"
-                android:background="#D2E3CB"
+                android:background="#C4C6C4"
                 />
             <TextView
                 android:layout_marginTop="3.2dp"
@@ -78,7 +77,7 @@
                 android:layout_marginTop="58dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/dot"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="12.6sp"
                 android:textStyle="bold"
                 android:text="@string/pick_up"
@@ -116,7 +115,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/tvSourceAddress"
                 app:layout_constraintStart_toStartOf="@id/tvSourceAddress"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="12.6sp"
                 android:textStyle="bold"
                 android:text="@string/delivery"

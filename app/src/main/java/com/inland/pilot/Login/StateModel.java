@@ -2,14 +2,14 @@ package com.inland.pilot.Login;
 
 public class StateModel {
     private String Code;
-    private String Name;
+    private String NAME;
 
     public StateModel() {
     }
 
-    public StateModel(String code, String name) {
+    public StateModel(String code, String NAME) {
         Code = code;
-        Name = name;
+        this.NAME = NAME;
     }
 
     public String getCode() {
@@ -21,18 +21,18 @@ public class StateModel {
     }
 
     public String getName() {
-        return Name;
+        return NAME;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String NAME) {
+        this.NAME = NAME;
     }
 
     @Override
     public String toString() {
         return "StateModel{" +
                 "Code='" + Code + '\'' +
-                ", Name='" + Name + '\'' +
+                ", NAME='" + NAME + '\'' +
                 '}';
     }
 }

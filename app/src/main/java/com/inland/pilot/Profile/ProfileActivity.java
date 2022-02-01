@@ -239,13 +239,13 @@ public class ProfileActivity extends AppCompatActivity {
                             for(int i=0;i<data.length();i++)
                             {
                                 JSONObject  WHA1=data.getJSONObject(i);
-                                if(WHA1.getString("ContentType").equals("Adhar")){
+                                if(WHA1.getString("ImageType").equals("ADHAR")){
                                     AdharTextIndicator.setText("(Completed)");
                                     AdharTextIndicator.setTextColor(ContextCompat.getColor(mCon, R.color.teal_700));
-                                } if(WHA1.getString("ContentType").equals("PAN")){
+                                } if(WHA1.getString("ImageType").equals("PAN")){
                                     PanTextIndicator.setText("(Completed)");
                                     PanTextIndicator.setTextColor(ContextCompat.getColor(mCon, R.color.teal_700));
-                                } if(WHA1.getString("ContentType").equals("Driv")){
+                                } if(WHA1.getString("ImageType").equals("DRIV")){
                                     DLTextIndicator.setText("(Completed)");
                                     DLTextIndicator.setTextColor(ContextCompat.getColor(mCon, R.color.teal_700));
                                 }

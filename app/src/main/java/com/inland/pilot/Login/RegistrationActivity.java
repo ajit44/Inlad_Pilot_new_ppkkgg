@@ -642,6 +642,7 @@ public class RegistrationActivity extends AppCompatActivity {
             call.enqueue(new Callback<StateListModel>() {
                 @Override
                 public void onResponse(Call<StateListModel> call, Response<StateListModel> response) {
+                    Log.v("states",response.body().toString());
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getStateModelList() != null &&
                                 !response.body().getStateModelList().isEmpty()) {
@@ -713,12 +714,13 @@ public class RegistrationActivity extends AppCompatActivity {
             call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
                 @Override
                 public void onResponse(Call<VerifyMobileNoResponseModel> call, Response<VerifyMobileNoResponseModel> response) {
+                    Log.v("register",call.request()+"");
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
                                 !response.body().getVerifyMobileNoModels().isEmpty()) {
                             String messageStr = response.body().getVerifyMobileNoModels().get(0).getMESSAGE().trim();
                             if (messageStr != null && !messageStr.isEmpty() &&
-                                    messageStr.equalsIgnoreCase("details save successfully") ||
+                                    messageStr.equalsIgnoreCase("Details Updated Successfully") ||
                                     messageStr.equalsIgnoreCase("details updated successfully")) {
                                 Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
                                 String mpin=PreferenceUtil.getPin();

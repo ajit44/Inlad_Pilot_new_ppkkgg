@@ -49,6 +49,7 @@ public class LoadImageCapture extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    LoadingRequestModel loadingRequestModel;
     private File output;
     private Bitmap photo;
     private String file_name, content_file_name;
@@ -247,7 +248,9 @@ public class LoadImageCapture extends AppCompatActivity {
 
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "driver");
         String mobile_no= PreferenceUtil.getUser().getP_MOBILENO();
-        file_name=mobile_no+ "_"+TripId+"_loading_"+image_no+ ".jpeg";
+        file_name=mobile_no+ "_"+TripId+"_loading_"+image_no+ "";
+        //file_name="loading_"+image_no;
+       // loadingRequestModel = new LoadingRequestModel(mobile_no,TripId,"loading_"+image_no+".jpg");
         try {
             if (!file.exists()) {
                 file.mkdirs();

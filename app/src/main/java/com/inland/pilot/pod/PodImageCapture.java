@@ -240,6 +240,7 @@ public class PodImageCapture extends AppCompatActivity {
         if (!file.exists()) file.mkdirs();
         String mobile_no= PreferenceUtil.getUser().getP_MOBILENO();
         file_name=mobile_no+ "_"+TripId+"_pod_"+image_no;
+        Log.e("pod_name",file_name);
         return (file.getAbsolutePath() + "/" + file_name + ".jpg");
     }
 }

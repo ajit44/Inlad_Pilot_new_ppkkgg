@@ -9,11 +9,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <androidx.cardview.widget.CardView
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardElevation="2dp"
         app:cardCornerRadius="5dp"
         android:id="@+id/tvOnGoingTripLayout"
-        app:cardBackgroundColor="#37474F"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +39,7 @@
                 android:layout_marginTop="18dp"
                 android:textSize="12dp"
                 android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
             <TextView
                 android:id="@+id/tvStatus"
                 android:text="(Reaching to Start Location)"
@@ -96,7 +95,7 @@
                 android:layout_marginTop="58dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/dot"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="12.6sp"
                 android:textStyle="bold"
                 android:text="@string/pick_up"
@@ -134,7 +133,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/tvSourceAddress"
                 app:layout_constraintStart_toStartOf="@id/tvSourceAddress"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="12.6sp"
                 android:textStyle="bold"
                 android:text="@string/delivery"

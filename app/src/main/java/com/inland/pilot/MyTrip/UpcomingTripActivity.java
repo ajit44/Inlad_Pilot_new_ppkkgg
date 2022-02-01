@@ -404,6 +404,8 @@ public class UpcomingTripActivity extends AppCompatActivity {
                             SharedPreferences preferences_shared = PreferenceManager.getDefaultSharedPreferences(mCon);
                             SharedPreferences.Editor editor = preferences_shared.edit();
                             editor.putBoolean("reaching_to_final", false);
+
+                            pref.edit().putBoolean("isLocationServiceActive", true).commit();
                             editor.commit();
 
                             TripMasterModel current_trip = current;

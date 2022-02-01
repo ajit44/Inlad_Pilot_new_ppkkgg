@@ -21,9 +21,9 @@ public class VerifyMobileNoModel {
         this.Msg = Msg;
     }
 
-    public VerifyMobileNoModel(String SETPASSWORD, String MESSAGE, String OTP, String TSTATUS) {
+    public VerifyMobileNoModel(String SETPASSWORD, String Msg, String OTP, String TSTATUS) {
         this.SETPASSWORD = SETPASSWORD;
-        this.Msg = MESSAGE;
+        this.Msg = Msg;
         this.OTP = OTP;
         this.TSTATUS=TSTATUS;
     }
@@ -56,7 +56,7 @@ public class VerifyMobileNoModel {
     public String toString() {
         return "VerifyMobileNoModel{" +
                 "SETPASSWORD='" + SETPASSWORD + '\'' +
-                ", MESSAGE='" + Msg + '\'' +
+                ", Msg='" + Msg + '\'' +
                 ", OTP='" + OTP + '\'' +
                 ", TSTATUS='" + TSTATUS + '\'' +
                 '}';

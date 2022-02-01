@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient_Image {
-    private static final String API_URL = "https://api.inland.in/Pilot/api/";
+    private static final String API_URL = "http://api.inland.in/Pilot/api/";
    // private static final String API_URL = "http://api.airmancourier.in/api/";
 
     private static Retrofit retrofit = null;

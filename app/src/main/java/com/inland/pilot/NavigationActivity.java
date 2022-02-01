@@ -5,10 +5,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -43,6 +47,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.inland.pilot.Location.DBHelper;
+import com.inland.pilot.Location.ExampleJobService;
 import com.inland.pilot.Location.LocationAlarmScheduler;
 import com.inland.pilot.Login.LoginActivity;
 import com.inland.pilot.Login.PinLoginActivity;
@@ -59,8 +65,8 @@ public class NavigationActivity extends AppCompatActivity {
     private String userNameStr;
     private static final int REQUEST_LOCATION = 1;
     private static String[] PERMISSIONS_LOCATION = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
     private Intent mServiceIntent;
     protected LocationManager locationManager;
@@ -181,6 +187,16 @@ public class NavigationActivity extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 PreferenceUtil.setUserLoggedIn(false);
                                 PreferenceUtil.clearAll();
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("currentActiveTrip",MODE_PRIVATE);
+                                pref.edit().putBoolean("isTripActive", false).commit();
+                                pref.edit().putBoolean("isLocationServiceActive", false).commit();
+
+                                SharedPreferences pref1 = getSharedPreferences("tripImageLoad",MODE_PRIVATE);
+                                pref1.edit().putString("loadImage", "pending").commit();
+
+                                DBHelper mydb = new DBHelper(mCon);
+                                mydb.deleteData();
+
                                 Intent intent = new Intent(mCon, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -200,6 +216,13 @@ public class NavigationActivity extends AppCompatActivity {
         });
 
         if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity)mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        }
+        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     (Activity)mCon,
                     PERMISSIONS_LOCATION,
@@ -238,10 +261,24 @@ public class NavigationActivity extends AppCompatActivity {
         }
 
  */
-       LocationAlarmScheduler alarmService = new LocationAlarmScheduler();
+    /*   LocationAlarmScheduler alarmService = new LocationAlarmScheduler();
         mServiceIntent = new Intent(this, LocationAlarmScheduler.class);
         if (!isMyServiceRunning(alarmService.getClass())) {
             startService(mServiceIntent);
+        }*/
+
+        ComponentName componentName = new ComponentName(this, ExampleJobService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d("TAG", "Job scheduled");
+        } else {
+            Log.d("TAG", "Job scheduling failed");
         }
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {

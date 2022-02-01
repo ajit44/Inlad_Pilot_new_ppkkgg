@@ -1,20 +1,12 @@
 package com.inland.pilot.Network;
 
-import com.inland.pilot.Login.LoginResponseModel;
-import com.inland.pilot.Login.RegistrationModel;
-import com.inland.pilot.Login.RequestModel;
-import com.inland.pilot.Login.RequestOtpResponseModel;
-import com.inland.pilot.Login.SetMpinModel;
-import com.inland.pilot.Login.StateListModel;
-import com.inland.pilot.Login.VerifyMobileNoResponseModel;
-import com.inland.pilot.Login.VerifyOtpModel;
-import com.inland.pilot.VehicleMaster.RequestVehicleListModel;
-import com.inland.pilot.VehicleMaster.VehicleListModel;
-import com.inland.pilot.VehicleMaster.VehicleMasterModel;
+import com.inland.pilot.LoadImage.LoadingRequestModel;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -28,6 +20,7 @@ public interface NetworkService_Image {
     @Multipart
     @POST("tripimage/Insertimage")
     Call<Response<String>> uploadLoading(@Part MultipartBody.Part file, @Part("file") RequestBody name);
+    //Call<Response<String>> uploadLoading(@Part MultipartBody.Part file, @Body LoadingRequestModel loadingRequestModel);
 
     @Multipart
     @POST("Vehicalimage/InsertVehicalimage")

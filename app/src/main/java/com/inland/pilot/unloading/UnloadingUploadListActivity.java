@@ -29,7 +29,7 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
     private ActivityPodImageListUploadBinding binding;
     private Context mCon;
     private boolean image_1, image_2, image_3, image_4, image_5, image_6;
-
+    SharedPreferences pref;
     private String TripId="";
     private String loginIdStr;
 
@@ -43,7 +43,7 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
         {
             TripId = bundle.getString("TripId");
         }
-
+        pref = mCon.getSharedPreferences("currentActiveTrip",MODE_PRIVATE);
         refresh_text_labels();
 
         if (PreferenceUtil.getUser() != null) {
@@ -199,6 +199,7 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
         }
     }
     private void tripStatusUpdate(SetTripStatusUpdateModel mpinModel) {
+        Log.e("req",mpinModel.toString());
         try {
             Call<VerifyMobileNoResponseModel> call = ApiClient.getNetworkService().setTripStatus(mpinModel);
 
@@ -212,7 +213,9 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
             call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
                 @Override
                 public void onResponse(Call<VerifyMobileNoResponseModel> call, Response<VerifyMobileNoResponseModel> response) {
+                    Log.e("response",""+response.code());
                     if (response.isSuccessful()) {
+
                         if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
                                 !response.body().getVerifyMobileNoModels().isEmpty()) {
                             String messageStr = response.body().getVerifyMobileNoModels().get(0).getMESSAGE();
@@ -220,6 +223,9 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
                             if (messageStr.equalsIgnoreCase("Trip Completed Successfully"))
                             {
                                 Toast.makeText(mCon, "Trip Completed Successfully !", Toast.LENGTH_LONG).show();
+
+                                pref.edit().putBoolean("isTripActive", false).commit();
+
                                 SharedPreferences preferences_shared = PreferenceManager.getDefaultSharedPreferences(mCon);
                                 SharedPreferences.Editor editor = preferences_shared.edit();
                                 editor.putBoolean("reaching_to_start", false);
@@ -241,14 +247,14 @@ public class UnloadingUploadListActivity extends AppCompatActivity {
                                 UnloadingUploadListActivity.this.finish();
 
                             } else {
-                                Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mCon, "1" + messageStr, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(mCon, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                        Log.d("check", "onResponse Trip Status update: " + response.errorBody());
+                        Toast.makeText(mCon, R.string.something_went_wrong+11, Toast.LENGTH_SHORT).show();
+                        Log.d("check", "onResponse Trip Status update: " + response.errorBody().toString());
                     }
                     dialog.dismiss();
                 }

@@ -58,7 +58,7 @@ public class TripCompletedListAdapter extends RecyclerView.Adapter<TripCompleted
     public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
         final TripMasterModel current = data.get(position);
 
-        holder.binding.tvTripId.setText("Trip ID: "+current.getPlacementid());
+      /*  holder.binding.tvTripId.setText("Trip ID: "+current.getPlacementid());
         holder.binding.tvSourceCityNstate.setText(current.getLoading_location());
         holder.binding.tvSourceAddress.setVisibility(View.INVISIBLE);
         holder.binding.tvDestCity.setText(current.getUnloading_location());
@@ -66,8 +66,21 @@ public class TripCompletedListAdapter extends RecyclerView.Adapter<TripCompleted
         holder.binding.tvAssignedTime.setVisibility(View.INVISIBLE);
         holder.binding.tvAssignedDate.setText(current.getPlacementdt());
         holder.binding.tvExpectedDate.setText(UpcomingTripActivity.getDate(current.getPlacementdt()));
+*/
+        holder.binding.tvTripId.setText("Trip ID: "+current.getPlacementid());
+        String addr[]=current.getLoading_location().split(", ");
+        holder.binding.tvSourceCityNstate.setText(addr[0]);
+        holder.binding.tvSourceAddress.setText(addr[1]+", "+addr[2]);
+
+        String addr2[]=current.getUnloading_location().split(", ");
+        holder.binding.tvDestCity.setText(addr2[0]);
+        holder.binding.tvDestAddress.setText(addr2[1]+", "+addr2[2]);
 
 
+        String dateANDtime[] = current.getInsertdate().split("T");
+        holder.binding.tvAssignedDate.setText(dateANDtime[0]);
+        holder.binding.tvAssignedTime.setText((dateANDtime[1].length() >5)? dateANDtime[1].substring(0,5):dateANDtime[1]);
+        holder.binding.tvExpectedDate.setText(UpcomingTripActivity.getDate(current.getPlacementdt()));
      /*   holder.binding.tripToFroTextView.setText(current.getTP_T_Location()+" - " + current.getTP_B_Location());
         holder.binding.tripDateTextView.setText(current.getTP_Date());
         holder.binding.tripTimeTextView.setText(current.getTP_Time());

@@ -4,16 +4,16 @@ public class VerifyOtpModel {
     private String P_MobileNo;
     private String Otp;
     private String DeviceId;
-    private String Token;
-    private String MESSAGE;
-    private String RACTIVE;
+    //private String Token;
+   // private String MESSAGE;
+   // private String RACTIVE;
 
     public VerifyOtpModel() {
     }
 
     public VerifyOtpModel(String token, String MESSAGE) {
-        Token = token;
-        this.MESSAGE = MESSAGE;
+     //   Token = token;
+     //   this.MESSAGE = MESSAGE;
     }
 
     public VerifyOtpModel(String p_MobileNo, String otp, String deviceId) {
@@ -26,9 +26,9 @@ public class VerifyOtpModel {
         P_MobileNo = p_MobileNo;
         Otp = otp;
         DeviceId = deviceId;
-        Token = token;
-        this.MESSAGE = MESSAGE;
-        this.RACTIVE = RACTIVE;
+       // Token = token;
+      //  this.MESSAGE = MESSAGE;
+      //  this.RACTIVE = RACTIVE;
     }
 
     public String getP_MobileNo() {
@@ -55,7 +55,7 @@ public class VerifyOtpModel {
         DeviceId = deviceId;
     }
 
-    public String getToken() {
+  /* public String getToken() {
         return Token;
     }
 
@@ -77,7 +77,7 @@ public class VerifyOtpModel {
 
     public void setRACTIVE(String RACTIVE) {
         this.RACTIVE = RACTIVE;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -85,9 +85,9 @@ public class VerifyOtpModel {
                 "P_MobileNo='" + P_MobileNo + '\'' +
                 ", Otp='" + Otp + '\'' +
                 ", DeviceId='" + DeviceId + '\'' +
-                ", Token='" + Token + '\'' +
+               /* ", Token='" + Token + '\'' +
                 ", MESSAGE='" + MESSAGE + '\'' +
-                ", RACTIVE='" + RACTIVE + '\'' +
+                ", RACTIVE='" + RACTIVE + '\'' +*/
                 '}';
     }
 }
