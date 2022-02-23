@@ -3,6 +3,9 @@ package com.inland.pilot.MyTrip;
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -10,20 +13,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +59,7 @@ import com.inland.pilot.Login.VerifyMobileNoResponseModel;
 import com.inland.pilot.NavigationActivity;
 import com.inland.pilot.Network.ApiClient;
 import com.inland.pilot.R;
+import com.inland.pilot.SplashScreenActivity;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.VehicleMaster.AddUpdateVehicleDetailsActivity;
 import com.inland.pilot.VehicleMaster.VehicleMasterModel;
@@ -65,6 +78,8 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
     private String deviceIdStr, tokenNoStr;
     SharedPreferences pref;
     private UpcomingTripActivity parentActivity;
+
+
 
     public TripListAdapter(Context context, UpcomingTripActivity parentActivity) {
         mCon = context;
@@ -175,91 +190,94 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
         holder.binding.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(mCon);
-                dialogBuilder.setTitle("Confirmation");
-                dialogBuilder.setMessage("Are you sure to accept the trip?");
-                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        if (PreferenceUtil.getUser() != null) {
-                            if (PreferenceUtil.getUser().getP_MOBILENO() != null && !PreferenceUtil.getUser().getP_MOBILENO().isEmpty()) {
-                                loginIdStr = PreferenceUtil.getUser().getP_MOBILENO();
-                                deviceIdStr = PreferenceUtil.getUser().getDeviceId();
-                                tokenNoStr = PreferenceUtil.getUser().getTOKENNO();
-                                Log.e("token no", tokenNoStr);
+
+
+                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(mCon);
+                    dialogBuilder.setTitle("Confirmation");
+                    dialogBuilder.setMessage("Are you sure to accept the trip?");
+                    dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (PreferenceUtil.getUser() != null) {
+                                if (PreferenceUtil.getUser().getP_MOBILENO() != null && !PreferenceUtil.getUser().getP_MOBILENO().isEmpty()) {
+                                    loginIdStr = PreferenceUtil.getUser().getP_MOBILENO();
+                                    deviceIdStr = PreferenceUtil.getUser().getDeviceId();
+                                    tokenNoStr = PreferenceUtil.getUser().getTOKENNO();
+                                    Log.e("token no", tokenNoStr);
+                                }
                             }
+                            TripMasterModel latest_pos = data.get(pos_inner);
+                            SharedPreferences preferences_shared = PreferenceManager.getDefaultSharedPreferences(mCon);
+                            SharedPreferences.Editor editor = preferences_shared.edit();
+                            editor.putString("LoginId", loginIdStr + "");
+                            editor.putString("TripId", latest_pos.getPlacementid() + "");
+                            editor.putString("deviceIdStr", deviceIdStr + "");
+                            editor.putString("tokenNoStr", tokenNoStr + "");
+                            editor.putBoolean("reaching_to_start", true);
+                            editor.putBoolean("reaching_to_final", false);
+                            editor.commit();
+
+                            editor.remove("image_1");
+                            editor.remove("image_2");
+                            editor.remove("image_3");
+                            editor.remove("image_4");
+                            editor.remove("image_5");
+                            editor.remove("image_6");
+                            editor.remove("image_7");
+                            editor.remove("image_8");
+                            editor.commit();
+
+                            pref.edit().putBoolean("isTripActive", true).commit();
+                            pref.edit().putBoolean("isLocationServiceActive", true).commit();
+                            pref.edit().putString("tripno", current.getTripno()).commit();
+                            Log.d("tttrrid", current.getTripno());
+                            pref.edit().putString("Placementid", current.getPlacementid()).commit();
+                            pref.edit().putString("placementdt", current.getPlacementdt()).commit();
+                            pref.edit().putString("insertdate", current.getInsertdate()).commit();
+                            pref.edit().putString("Loading_location", current.getLoading_location()).commit();
+                            pref.edit().putString("loading_Latitude", current.getLoading_Latitude()).commit();
+                            pref.edit().putString("loading_Longitude", current.getLoading_Longitude()).commit();
+                            pref.edit().putString("Unloading_location", current.getUnloading_location()).commit();
+                            pref.edit().putString("Unloading_Latitude", current.getUnloading_Latitude()).commit();
+                            pref.edit().putString("Unloading_Longitude", current.getUnloading_Longitude()).commit();
+                            pref.edit().putString("Tp_Active", current.getTP_Active()).commit();
+
+
+                            //    Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
+                            //    mCon.startService(mServiceIntent);
+                            ComponentName componentName = new ComponentName(mCon, ExampleJobService.class);
+                            JobInfo info = new JobInfo.Builder(123, componentName)
+                                    .setPersisted(true)
+                                    .setPeriodic(15 * 60 * 1000)
+                                    .build();
+
+                            JobScheduler scheduler = (JobScheduler) mCon.getSystemService(JOB_SCHEDULER_SERVICE);
+                            int resultCode = scheduler.schedule(info);
+                            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                                Log.d("TAG", "Job scheduled");
+                            } else {
+                                Log.d("TAG", "Job scheduling failed");
+                            }
+
+                            //Intent intent_main=new Intent(mCon, UpcomingTripActivity.class);
+                            // mCon.startActivity(intent_main);
+                            //TripListAdapter.this.parentActivity.finish();
+                            SetTripStatusUpdateModel requestModel = new SetTripStatusUpdateModel("1", latest_pos.getPlacementid(), loginIdStr);
+                            tripStatusUpdate(requestModel);
+
                         }
-                        TripMasterModel latest_pos = data.get(pos_inner);
-                        SharedPreferences preferences_shared = PreferenceManager.getDefaultSharedPreferences(mCon);
-                        SharedPreferences.Editor editor = preferences_shared.edit();
-                        editor.putString("LoginId", loginIdStr+"");
-                        editor.putString("TripId", latest_pos.getPlacementid()+"");
-                        editor.putString("deviceIdStr", deviceIdStr+"");
-                        editor.putString("tokenNoStr", tokenNoStr+"");
-                        editor.putBoolean("reaching_to_start", true);
-                        editor.putBoolean("reaching_to_final", false);
-                        editor.commit();
-
-                        editor.remove("image_1");
-                        editor.remove("image_2");
-                        editor.remove("image_3");
-                        editor.remove("image_4");
-                        editor.remove("image_5");
-                        editor.remove("image_6");
-                        editor.remove("image_7");
-                        editor.remove("image_8");
-                        editor.commit();
-
-                        pref.edit().putBoolean("isTripActive", true).commit();
-                        pref.edit().putBoolean("isLocationServiceActive", true).commit();
-                        pref.edit().putString("tripno", current.getTripno()).commit();
-                        Log.d("tttrrid",current.getTripno());
-                        pref.edit().putString("Placementid", current.getPlacementid()).commit();
-                        pref.edit().putString("placementdt", current.getPlacementdt()).commit();
-                        pref.edit().putString("insertdate", current.getInsertdate()).commit();
-                        pref.edit().putString("Loading_location", current.getLoading_location()).commit();
-                        pref.edit().putString("loading_Latitude", current.getLoading_Latitude()).commit();
-                        pref.edit().putString("loading_Longitude", current.getLoading_Longitude()).commit();
-                        pref.edit().putString("Unloading_location", current.getUnloading_location()).commit();
-                        pref.edit().putString("Unloading_Latitude", current.getUnloading_Latitude()).commit();
-                        pref.edit().putString("Unloading_Longitude", current.getUnloading_Longitude()).commit();
-                        pref.edit().putString("Tp_Active", current.getTP_Active()).commit();
-
-
-                    //    Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
-                    //    mCon.startService(mServiceIntent);
-                        ComponentName componentName = new ComponentName(mCon, ExampleJobService.class);
-                        JobInfo info = new JobInfo.Builder(123, componentName)
-                                .setPersisted(true)
-                                .setPeriodic(15 * 60 * 1000)
-                                .build();
-
-                        JobScheduler scheduler = (JobScheduler) mCon.getSystemService(JOB_SCHEDULER_SERVICE);
-                        int resultCode = scheduler.schedule(info);
-                        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-                            Log.d("TAG", "Job scheduled");
-                        } else {
-                            Log.d("TAG", "Job scheduling failed");
+                    });
+                    dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
+                    });
+                    dialogBuilder.setCancelable(false);
+                    dialogBuilder.create();
+                    dialogBuilder.show();
 
-                        Intent intent_main=new Intent(mCon, UpcomingTripActivity.class);
-                        mCon.startActivity(intent_main);
-                        TripListAdapter.this.parentActivity.finish();
-                      //  SetTripStatusUpdateModel requestModel = new SetTripStatusUpdateModel("1", latest_pos.getTripno(), loginIdStr);
-                      //  tripStatusUpdate(requestModel);
-
-                    }
-                });
-                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                dialogBuilder.setCancelable(false);
-                dialogBuilder.create();
-                dialogBuilder.show();
             }
         });
 
@@ -407,24 +425,31 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
             call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
                 @Override
                 public void onResponse(Call<VerifyMobileNoResponseModel> call, Response<VerifyMobileNoResponseModel> response) {
+                    Log.d("tripUpdate","req "+mpinModel.toString()+" res "+response.code());
                     if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
-                                !response.body().getVerifyMobileNoModels().isEmpty()) {
-                            String messageStr = response.body().getVerifyMobileNoModels().get(0).getMESSAGE();
-                            Log.e("statusss",messageStr);
-                            if (messageStr.equalsIgnoreCase("Status updated Successfully")) {
-                                Toast.makeText(mCon, "Your trip has been started ! Please reach to start point.", Toast.LENGTH_LONG).show();
-                                Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
-                                mCon.startService(mServiceIntent);
+                        try {
+                            if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
+                                    !response.body().getVerifyMobileNoModels().isEmpty()) {
+                                String messageStr = response.body().getVerifyMobileNoModels().get(0).getMESSAGE();
+                                Log.e("statusss", messageStr);
+                                if (messageStr.equalsIgnoreCase("Status updated Successfully")) {
+                                    Toast.makeText(mCon, "Your trip has been started ! Please reach to start point.", Toast.LENGTH_LONG).show();
+                                    //Intent mServiceIntent = new Intent(mCon, LocationAlarmScheduler.class);
+                                    //mCon.startService(mServiceIntent);
 
-                                Intent intent_main=new Intent(mCon, UpcomingTripActivity.class);
-                                mCon.startActivity(intent_main);
-                                TripListAdapter.this.parentActivity.finish();
+                                    Intent intent_main = new Intent(mCon, UpcomingTripActivity.class);
+                                    mCon.startActivity(intent_main);
+                                    TripListAdapter.this.parentActivity.finish();
+                                } else {
+                                    Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(mCon, "" + messageStr, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(mCon, R.string.no_data, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Intent intent_main = new Intent(mCon, UpcomingTripActivity.class);
+                            mCon.startActivity(intent_main);
+                            TripListAdapter.this.parentActivity.finish();
                         }
                     } else {
                         Toast.makeText(mCon, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
@@ -447,4 +472,6 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.MyView
             Log.d("check", "setMPin: " + e.getMessage());
         }
     }
+
+
 }

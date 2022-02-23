@@ -48,12 +48,14 @@ import retrofit2.Response;
 public class UpcomingTripActivity extends AppCompatActivity {
 
     private ActivityUpcomingTripBinding binding;
+    boolean isActiveTripNOTAvailable=true;
+    String deviceIdStr;
     private Context mCon;
     private TripListAdapter tripListAdapter;
     private List<TripMasterModel> tripMasterModelList = new ArrayList<>();
     private String loginIdStr;
     private RequestActiveTripListModel tripListModel;
-   // private RequestTripListModel reqTripListModel;
+    private RequestTripListModel reqTripListModel;
     public static TextView tvETA;
     public static double dst_longi=0.0,dst_lati=0.0;
     String mapButtonFlg="";
@@ -94,11 +96,11 @@ public class UpcomingTripActivity extends AppCompatActivity {
             if (PreferenceUtil.getUser().getP_MOBILENO() != null && !PreferenceUtil.getUser().getP_MOBILENO().isEmpty()) {
                 loginIdStr = PreferenceUtil.getUser().getP_MOBILENO();
                 tokenNoStr= PreferenceUtil.getTokenNo();
-               // reqTripListModel = new RequestTripListModel("1",loginIdStr);
-                //getTripList(reqTripListModel);
-                setCurretTripData();
-                tripListModel = new RequestActiveTripListModel(loginIdStr, tokenNoStr);
-                getTripList(tripListModel);
+                reqTripListModel = new RequestTripListModel("1",loginIdStr);
+                getTripList_1(reqTripListModel);
+                //setCurretTripData();
+                //tripListModel = new RequestActiveTripListModel(loginIdStr, tokenNoStr);
+                //getTripList(tripListModel);
             }
         }
 
@@ -123,6 +125,7 @@ public class UpcomingTripActivity extends AppCompatActivity {
 
     private void getTripList(RequestActiveTripListModel requestTripListModel) {
         try {
+
             Call<TripListModel> call = ApiClient.getNetworkService().getTripList(requestTripListModel);
 
             final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
@@ -143,6 +146,7 @@ public class UpcomingTripActivity extends AppCompatActivity {
 
                             tripMasterModelList = response.body().getTripListModels();
                             tripMasterModelList= reverseList(tripMasterModelList);
+
                             tripListAdapter.addAll(tripMasterModelList);
                             binding.tripListRecycler.setVisibility(View.VISIBLE);
                             binding.errorTextView.setVisibility(View.GONE);
@@ -182,10 +186,10 @@ public class UpcomingTripActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         if (tripListModel != null) {
-            getTripList(tripListModel);
+           // getTripList(tripListModel);
         }
-        if(pref !=null)
-            setCurretTripData();
+        /*if(pref !=null)
+            setCurretTripData();*/
     }
     public static<T> List<T> reverseList(List<T> list)
     {
@@ -194,9 +198,10 @@ public class UpcomingTripActivity extends AppCompatActivity {
         return reverse;
     }
 
-/*
-    private void getTripList(RequestTripListModel requestTripListModel) {
+
+    private void getTripList_1(RequestTripListModel requestTripListModel) {
         try {
+            Log.d("trip","1");
             Call<TripListModel> call = ApiClient.getNetworkService().getTripListAll(requestTripListModel);
 
             final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
@@ -215,10 +220,67 @@ public class UpcomingTripActivity extends AppCompatActivity {
                                 !response.body().getTripListModels().isEmpty()) {
                             tripMasterModelList = response.body().getTripListModels();
 
-                            setCurretTripData(tripMasterModelList.get(0));
+
+                            TripMasterModel current= tripMasterModelList.get(0);
+                                if(current.getTP_Active().equals("1")){
+                                    String test =pref.getString("tripno", "empty");
+                                    if (test.equals("empty")){
+                                        if (PreferenceUtil.getUser() != null) {
+                                            if (PreferenceUtil.getUser().getP_MOBILENO() != null && !PreferenceUtil.getUser().getP_MOBILENO().isEmpty()) {
+                                                loginIdStr = PreferenceUtil.getUser().getP_MOBILENO();
+                                                deviceIdStr = PreferenceUtil.getUser().getDeviceId();
+                                                tokenNoStr = PreferenceUtil.getUser().getTOKENNO();
+                                                Log.e("token no", tokenNoStr);
+                                            }
+                                        }
+                                        //  TripMasterModel latest_pos = data.get(pos_inner);
+                                        SharedPreferences preferences_shared = PreferenceManager.getDefaultSharedPreferences(mCon);
+                                        SharedPreferences.Editor editor = preferences_shared.edit();
+                                        editor.putString("LoginId", loginIdStr+"");
+                                        editor.putString("TripId", current.getPlacementid()+"");
+                                        editor.putString("deviceIdStr", deviceIdStr+"");
+                                        editor.putString("tokenNoStr", tokenNoStr+"");
+                                        editor.putBoolean("reaching_to_start", true);
+                                        editor.putBoolean("reaching_to_final", false);
+                                        editor.commit();
+
+                                        editor.remove("image_1");
+                                        editor.remove("image_2");
+                                        editor.remove("image_3");
+                                        editor.remove("image_4");
+                                        editor.remove("image_5");
+                                        editor.remove("image_6");
+                                        editor.remove("image_7");
+                                        editor.remove("image_8");
+                                        editor.commit();
+                                        pref.edit().putBoolean("isTripActive", true).commit();
+                                        pref.edit().putBoolean("isLocationServiceActive", true).commit();
+                                        pref.edit().putString("tripno", current.getTripno()).commit();
+                                        Log.d("tttrrid",current.getTripno());
+                                        pref.edit().putString("Placementid", current.getPlacementid()).commit();
+                                        pref.edit().putString("placementdt", current.getPlacementdt()).commit();
+                                        pref.edit().putString("insertdate", current.getInsertdate()).commit();
+                                        pref.edit().putString("Loading_location", current.getLoading_location()).commit();
+                                        pref.edit().putString("loading_Latitude", current.getLoading_Latitude()).commit();
+                                        pref.edit().putString("loading_Longitude", current.getLoading_Longitude()).commit();
+                                        pref.edit().putString("Unloading_location", current.getUnloading_location()).commit();
+                                        pref.edit().putString("Unloading_Latitude", current.getUnloading_Latitude()).commit();
+                                        pref.edit().putString("Unloading_Longitude", current.getUnloading_Longitude()).commit();
+                                        pref.edit().putString("Tp_Active", current.getTP_Active()).commit();
+                                    }
+                                    else setCurretTripData();
+
+                                }else {
+                                    Log.d("trip0","here");
+
+                                }
+
+
                             //tripListAdapter.addAll(tripMasterModelList);
                             binding.tvOnGoingTripLayout.setVisibility(View.VISIBLE);
                         } else {
+                            reqTripListModel = new RequestTripListModel("0",loginIdStr);
+                            getTripList_0(reqTripListModel);
                             binding.tvOnGoingTripLayout.setVisibility(View.GONE);
                          //   Toast.makeText(mCon, "No Active trip found !", Toast.LENGTH_SHORT).show();
                         }
@@ -245,8 +307,66 @@ public class UpcomingTripActivity extends AppCompatActivity {
             Log.d("check", "getNotificationList: " + e.getMessage());
         }
     }
+    private void getTripList_0(RequestTripListModel requestTripListModel) {
+        try {
+            Log.d("trip","2");
+            Call<TripListModel> call = ApiClient.getNetworkService().getTripListAll(requestTripListModel);
 
- */
+            final MaterialDialog dialog = new MaterialDialog.Builder(mCon)
+                    .title(R.string.loading)
+                    .content(R.string.loading)
+                    .canceledOnTouchOutside(false)
+                    .progress(true, 0)
+                    .widgetColorRes(R.color.colorPrimary)
+                    .show();
+
+            call.enqueue(new Callback<TripListModel>() {
+                @Override
+                public void onResponse(Call<TripListModel> call, Response<TripListModel> response) {
+                    Log.d("trip0",response.body().toString());
+                    if (response.isSuccessful()) {
+                        dialog.dismiss();
+                        if (response.body() != null && response.body().getTripListModels() != null &&
+                                !response.body().getTripListModels().isEmpty()) {
+
+                            tripMasterModelList = response.body().getTripListModels();
+                            tripMasterModelList= reverseList(tripMasterModelList);
+
+                            tripListAdapter.addAll(tripMasterModelList);
+                            binding.tripListRecycler.setVisibility(View.VISIBLE);
+                            binding.errorTextView.setVisibility(View.GONE);
+                            binding.tripListRecycler.setAdapter(tripListAdapter);
+                        } else {
+                            binding.tripListRecycler.setVisibility(View.GONE);
+                            binding.errorTextView.setVisibility(View.VISIBLE);
+                            //  Toast.makeText(mCon, "No Upcoming trip found !", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        binding.tripListRecycler.setVisibility(View.GONE);
+                        binding.errorTextView.setVisibility(View.VISIBLE);
+                        Toast.makeText(mCon, "2 " + mCon.getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<TripListModel> call, Throwable t) {
+                    if (!call.isCanceled()) {
+                        binding.tripListRecycler.setVisibility(View.GONE);
+                        binding.errorTextView.setVisibility(View.VISIBLE);
+                        Toast.makeText(mCon, " " + mCon.getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                        Log.d("check", "onFailure: " + t.getMessage());
+                    }
+                    dialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("check", "getNotificationList: " + e.getMessage());
+        }
+    }
+
+
     public static String getDate(String dt){
         String arr[];
         if(dt.contains("T")) {
@@ -405,7 +525,7 @@ public class UpcomingTripActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = preferences_shared.edit();
                             editor.putBoolean("reaching_to_final", false);
 
-                            pref.edit().putBoolean("isLocationServiceActive", true).commit();
+                           //(adding into pod upload) pref.edit().putBoolean("isLocationServiceActive", false).commit();
                             editor.commit();
 
                             TripMasterModel current_trip = current;

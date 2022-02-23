@@ -1,30 +1,53 @@
 package com.inland.pilot;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import com.google.android.material.button.MaterialButton;
 import com.inland.pilot.Login.LoginDetailsModel;
 import com.inland.pilot.Login.LoginResponseModel;
 import com.inland.pilot.Login.PinLoginActivity;
 import com.inland.pilot.Login.RegistrationActivity;
 import com.inland.pilot.Login.SetMpinModel;
 import com.inland.pilot.Network.ApiClient;
+import com.inland.pilot.Profile.AdharCapture;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.databinding.ActivitySplashScreenBinding;
 import com.inland.pilot.Login.LoginActivity;
+
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,32 +57,136 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Context mCon;
     String deviceIdStr,loginPinStr,loginMobileNoStr,TSTATUS;
     private LoginDetailsModel loginDetailsModel;
+    SharedPreferences DisclosurePref;
+    int lang_selected;
+    SharedPreferences prefSettings;
+    private static String[] PERMISSIONS_LOCATION = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+    };
+    private static final int REQUEST_LOCATION = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefSettings = getSharedPreferences("AppSettings",MODE_PRIVATE);
+        String languageToLoad  = prefSettings.getString("Language","en"); // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
         UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
         uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
         mCon = this;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!PreferenceUtil.isUserLoggedIn()) {
-                    startActivity(new Intent(mCon, LoginActivity.class));
-                    finish();
-                } else {
-                   // startActivity(new Intent(mCon, PinLoginActivity.class));
-                    fetchRequiredData();
-                    SetMpinModel setMpinModel = new SetMpinModel(deviceIdStr, loginPinStr, loginMobileNoStr);
-                    verifyPin(setMpinModel);
-                }
-            }
-        }, 2400);
+
+           DisclosurePref = mCon.getSharedPreferences("permissionsDisclosure",MODE_PRIVATE);
+          Boolean viewDisclosure = DisclosurePref.getBoolean("viewDisclosure", true);
+
+          if(viewDisclosure) {
+              //binding.disclosureLayout.setVisibility(View.VISIBLE);
+              showDisclosure();
+          }
+          else {
+              handler.postDelayed(new Runnable() {
+                  @Override
+                  public void run() {
+                      if (!PreferenceUtil.isUserLoggedIn()) {
+                          startActivity(new Intent(mCon, LoginActivity.class));
+                          finish();
+                      } else {
+                          // startActivity(new Intent(mCon, PinLoginActivity.class));
+                          fetchRequiredData();
+                          SetMpinModel setMpinModel = new SetMpinModel(deviceIdStr, loginPinStr, loginMobileNoStr);
+                          verifyPin(setMpinModel);
+                      }
+                  }
+              }, 2400);
+          }
     }
 
+    private void showDisclosure() {
+        Dialog dialog = new Dialog(SplashScreenActivity.this);
+        dialog.setContentView(R.layout.disclosure_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.DialogAnimation;
+        final WindowManager.LayoutParams params = window.getAttributes();
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes((WindowManager.LayoutParams) params);
+        TextView Privacy_link = dialog.findViewById(R.id.Privacy_link);
+        MaterialButton declineBtn = dialog.findViewById(R.id.declineDisclosure);
+        MaterialButton acceptBtn = dialog.findViewById(R.id.acceptDisclosure);
+        dialog.show();
+        Privacy_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCon.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.inlandworldlogistics.com/privacypolicy/")));
+            }
+        });
+        declineBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                DisclosurePref.edit().putBoolean("viewDisclosure", false).commit();
+                GetPermission();
+              selectLanguage();
+            }
+        });
+    }
+
+    private void selectLanguage(){
+        final String[] Language = {"ENGLISH","हिन्दी","मराठी"};
+        final int checkItem;
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SplashScreenActivity.this);
+        dialogBuilder.setTitle("Select a Language")
+                .setSingleChoiceItems(Language, lang_selected, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(Language[i].equals("ENGLISH")){
+                            prefSettings.edit().putString("Language", "en").commit();
+                        }
+                        if(Language[i].equals("हिन्दी"))
+                        {
+                            prefSettings.edit().putString("Language", "hi").commit();
+                        }
+                        if(Language[i].equals("मराठी"))
+                        {
+                            prefSettings.edit().putString("Language", "mr").commit();
+                        }
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        if (!PreferenceUtil.isUserLoggedIn()) {
+                            startActivity(new Intent(mCon, LoginActivity.class));
+                            finish();
+                        } else {
+                            // startActivity(new Intent(mCon, PinLoginActivity.class));
+                            fetchRequiredData();
+                            SetMpinModel setMpinModel = new SetMpinModel(deviceIdStr, loginPinStr, loginMobileNoStr);
+                            verifyPin(setMpinModel);
+                        }
+                    }
+                });
+        dialogBuilder.create().show();
+    }
     private void fetchRequiredData() {
         if (PreferenceUtil.getUser() != null) {
             loginDetailsModel = PreferenceUtil.getUser();
@@ -214,4 +341,21 @@ public class SplashScreenActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    private void GetPermission()
+    {
+        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity) mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        } else if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity) mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        }
+    }
+
 }

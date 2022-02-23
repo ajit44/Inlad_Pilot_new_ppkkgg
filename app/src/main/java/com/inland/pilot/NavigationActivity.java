@@ -14,10 +14,12 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -53,9 +55,12 @@ import com.inland.pilot.Location.LocationAlarmScheduler;
 import com.inland.pilot.Login.LoginActivity;
 import com.inland.pilot.Login.PinLoginActivity;
 import com.inland.pilot.Login.RegistrationActivity;
+import com.inland.pilot.Notification.NotificationActivity;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.VehicleMaster.RequestVehicleListModel;
 import com.inland.pilot.databinding.ActivityNavigationBinding;
+
+import java.util.Locale;
 
 
 public class NavigationActivity extends AppCompatActivity {
@@ -63,11 +68,7 @@ public class NavigationActivity extends AppCompatActivity {
     private ActivityNavigationBinding binding;
     private Context mCon;
     private String userNameStr;
-    private static final int REQUEST_LOCATION = 1;
-    private static String[] PERMISSIONS_LOCATION = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-    };
+
     private Intent mServiceIntent;
     protected LocationManager locationManager;
     boolean isGPSEnabled = false;
@@ -143,7 +144,14 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        SharedPreferences prefSettings = getSharedPreferences("AppSettings",MODE_PRIVATE);
+        String languageToLoad  = prefSettings.getString("Language","en"); // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         binding = ActivityNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -155,7 +163,7 @@ public class NavigationActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_dashboard,
-                R.id.nav_vehicle_master, R.id.nav_route_master, R.id.nav_profile,
+                R.id.nav_vehicle_master/*, R.id.nav_route_master*/, R.id.nav_profile,
                 R.id.nav_bank_details, R.id.nav_change_pin)
                 .setDrawerLayout(drawer)
                 .build();
@@ -215,20 +223,6 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
 
-        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    (Activity)mCon,
-                    PERMISSIONS_LOCATION,
-                    REQUEST_LOCATION
-            );
-        }
-        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    (Activity)mCon,
-                    PERMISSIONS_LOCATION,
-                    REQUEST_LOCATION
-            );
-        }
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -267,18 +261,21 @@ public class NavigationActivity extends AppCompatActivity {
             startService(mServiceIntent);
         }*/
 
-        ComponentName componentName = new ComponentName(this, ExampleJobService.class);
-        JobInfo info = new JobInfo.Builder(123, componentName)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build();
+        SharedPreferences pref = mCon.getSharedPreferences("currentActiveTrip",MODE_PRIVATE);
+        if(pref.getBoolean("isLocationServiceActive",false)) {
+            ComponentName componentName = new ComponentName(this, ExampleJobService.class);
+            JobInfo info = new JobInfo.Builder(123, componentName)
+                    .setPersisted(true)
+                    .setPeriodic(15 * 60 * 1000)
+                    .build();
 
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d("TAG", "Job scheduled");
-        } else {
-            Log.d("TAG", "Job scheduling failed");
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            int resultCode = scheduler.schedule(info);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d("TAG", "Job scheduled");
+            } else {
+                Log.d("TAG", "Job scheduling failed");
+            }
         }
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -292,12 +289,12 @@ public class NavigationActivity extends AppCompatActivity {
         Log.i ("Service status", "Not running");
         return false;
     }
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
         return true;
-    }*/
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -306,6 +303,22 @@ public class NavigationActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_notification:
+                startActivity(new Intent(mCon, NotificationActivity.class));
+                return true;
+            case R.id.action_settings:
+                Intent intent =new Intent(mCon, SettingsActivity.class);
+                intent.putExtra("activity","Nav");
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onDestroy() {
         //stopService(mServiceIntent);

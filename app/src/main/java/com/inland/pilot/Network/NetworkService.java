@@ -16,6 +16,7 @@ import com.inland.pilot.Login.SetMpinModel;
 import com.inland.pilot.Login.StateListModel;
 import com.inland.pilot.Login.StateModel;
 import com.inland.pilot.Login.VerifyMobileNoResponseModel;
+import com.inland.pilot.Login.VerifyMobileNoResponseModel_Message;
 import com.inland.pilot.Login.VerifyOtpModel;
 import com.inland.pilot.Login.VerifyOtpResponseModel;
 import com.inland.pilot.Login.VerifyPinResponseModel;
@@ -60,6 +61,9 @@ public interface NetworkService {
 
     @POST("Driver_save")
     Call<VerifyMobileNoResponseModel> registerUser(@Body RegistrationModel registrationModel);
+
+ @POST("Driver_save")
+    Call<VerifyMobileNoResponseModel_Message> registerUser_MESSAGE(@Body RegistrationModel registrationModel);
 
     @POST("Verify_PIN")
     Call<LoginResponseModel> verifyMpin(@Body SetMpinModel setMpinModel);

@@ -715,11 +715,12 @@ public class ModifyRegistrationActivity extends AppCompatActivity {
 
     private void registerUser(RegistrationModel regModel, String deviceId) {
         try {
-            Call<VerifyMobileNoResponseModel> call = ApiClient.getNetworkService().registerUser(regModel);
+            Call<VerifyMobileNoResponseModel_Message> call = ApiClient.getNetworkService().registerUser_MESSAGE(regModel);
             Log.e("requesting",regModel.toString());
-            call.enqueue(new Callback<VerifyMobileNoResponseModel>() {
+            call.enqueue(new Callback<VerifyMobileNoResponseModel_Message>() {
                 @Override
-                public void onResponse(Call<VerifyMobileNoResponseModel> call, Response<VerifyMobileNoResponseModel> response) {
+                public void onResponse(Call<VerifyMobileNoResponseModel_Message> call, Response<VerifyMobileNoResponseModel_Message> response) {
+                    Log.e("modifyReg",response.body().toString());
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getVerifyMobileNoModels() != null &&
                                 !response.body().getVerifyMobileNoModels().isEmpty()) {
@@ -770,7 +771,7 @@ public class ModifyRegistrationActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<VerifyMobileNoResponseModel> call, Throwable t) {
+                public void onFailure(Call<VerifyMobileNoResponseModel_Message> call, Throwable t) {
                     if (!call.isCanceled()) {
                         Toast.makeText(mCon, "Please check internet connection", Toast.LENGTH_SHORT).show();
                         Log.d("check", "onFailure registerUser: " + t.getMessage());

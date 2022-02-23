@@ -2,9 +2,12 @@ package com.inland.pilot.Dashboard;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -24,6 +27,7 @@ import com.inland.pilot.MyTrip.ReachFinalTripListActivity;
 import com.inland.pilot.MyTrip.TripDetailsActivity;
 import com.inland.pilot.OriginOfLoads.OriginOfLoadsActivity;
 import com.inland.pilot.R;
+import com.inland.pilot.SettingsActivity;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.databinding.FragmentDashboardBinding;
 import com.inland.pilot.pod.PodListActivity;
@@ -32,6 +36,7 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private Context mCon;
     private String registrationStatus, mobileNoStr, userNameStr;
+
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -82,6 +87,8 @@ public class DashboardFragment extends Fragment {
             }
         }
 
+
+
         binding.loadingAvailabilityCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +121,15 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(mCon, PodListActivity.class));
+            }
+        });
+        binding.SettingCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(mCon, SettingsActivity.class);
+                intent.putExtra("activity","Nav");
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         return binding.getRoot();

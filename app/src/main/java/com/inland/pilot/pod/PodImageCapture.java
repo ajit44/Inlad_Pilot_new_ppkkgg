@@ -144,6 +144,9 @@ public class PodImageCapture extends AppCompatActivity {
 
     public void uploadImage(File file) {
         // create multipart
+        SharedPreferences pref = mCon.getSharedPreferences("currentActiveTrip",MODE_PRIVATE);
+        pref.edit().putBoolean("isLocationServiceActive", false).commit();
+
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
@@ -163,6 +166,7 @@ public class PodImageCapture extends AppCompatActivity {
                 Log.e("file name",file.getName());
                 Log.e("response server ",response.code()+"");
                 dialog.dismiss();
+
                 if(response.code()==201)
                 {
                     Toast.makeText(mCon,"Image Uploaded Successfully",Toast.LENGTH_LONG).show();

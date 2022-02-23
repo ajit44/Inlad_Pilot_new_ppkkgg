@@ -13,8 +13,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -46,6 +48,7 @@ import com.inland.pilot.MainActivity;
 import com.inland.pilot.NavigationActivity;
 import com.inland.pilot.Network.ApiClient;
 import com.inland.pilot.R;
+import com.inland.pilot.SettingsActivity;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.databinding.ActivityLoginBinding;
 
@@ -53,6 +56,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
@@ -74,19 +78,29 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton changePinButton;
     private MaterialDialog dialog_pin;
     private String TSTATUS;
-    private static final int REQUEST_LOCATION = 1;
     private static String[] PERMISSIONS_LOCATION = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
+    private static final int REQUEST_LOCATION = 0;
+
 
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefSettings = getSharedPreferences("AppSettings",MODE_PRIVATE);
+        String languageToLoad  = prefSettings.getString("Language","en"); // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         mCon = this;
+
 
         if (PreferenceUtil.getUser() != null) {
             loginDetailsModel = PreferenceUtil.getUser();
@@ -118,20 +132,10 @@ public class LoginActivity extends AppCompatActivity {
                     Settings.Secure.ANDROID_ID);
         }
 
-        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    (Activity)mCon,
-                    PERMISSIONS_LOCATION,
-                    REQUEST_LOCATION
-            );
-        }
-        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    (Activity)mCon,
-                    PERMISSIONS_LOCATION,
-                    REQUEST_LOCATION
-            );
-        }
+       // SharedPreferences DisclosurePref = mCon.getSharedPreferences("permissionsDisclosure",MODE_PRIVATE);
+       // Boolean viewDisclosure = DisclosurePref.getBoolean("viewDisclosure", true);
+
+
 
         binding.mobileNoEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -248,6 +252,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });*/
+        RequestLocationWithDisclosure();
     }
 
     private void validateMobileNo(String mobileNo, String androidDeviceId, String validateType) {
@@ -1035,4 +1040,65 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void settings(View view) {
+        Intent intent =new Intent(mCon, SettingsActivity.class);
+        intent.putExtra("activity","Login");
+        startActivity(intent);
+        finish();
+    }
+
+    private void GetPermission()
+    {
+        if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity) mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        } else if (ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mCon, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity) mCon,
+                    PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION
+            );
+        }
+    }
+
+    private void RequestLocationWithDisclosure()
+    {
+        Dialog dialog = new Dialog(mCon);
+        dialog.setContentView(R.layout.disclosure_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.DialogAnimation;
+        final WindowManager.LayoutParams params = window.getAttributes();
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes((WindowManager.LayoutParams) params);
+        TextView Privacy_link = dialog.findViewById(R.id.Privacy_link);
+        MaterialButton declineBtn = dialog.findViewById(R.id.declineDisclosure);
+        MaterialButton acceptBtn = dialog.findViewById(R.id.acceptDisclosure);
+        dialog.show();
+        Privacy_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCon.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.inlandworldlogistics.com/privacypolicy/")));
+            }
+        });
+        declineBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                GetPermission();
+            }
+        });
+    }
 }

@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.inland.pilot.Login.ModifyRegistrationActivity;
 import com.inland.pilot.R;
 import com.inland.pilot.Util.PreferenceUtil;
 import com.inland.pilot.databinding.FragmentPersonalDetailsBinding;
@@ -62,6 +64,13 @@ public class PersonalDetailsFragment extends Fragment {
             binding.panNoTextView.setText("----");
             binding.aadharNoTextView.setText("----");
         }
+        binding.nameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mCon, ModifyRegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return binding.getRoot();
     }

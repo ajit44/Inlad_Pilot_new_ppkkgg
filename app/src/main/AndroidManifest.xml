@@ -31,6 +31,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,InnerclassSeparator,UnusedAttribute">
         <activity
+            android:name=".Notification.NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Login.ForgotOTPActivity"
             android:exported="false" />
 
@@ -124,7 +130,7 @@
             android:parentActivityName=".MyTrip.TripDetailsActivity" />
         <activity
             android:name=".MyTrip.UpcomingTripActivity"
-            android:label="My Trip"
+            android:label="@string/my_trip"
             android:parentActivityName=".MyTrip.TripDetailsActivity" />
         <activity
             android:name=".MyTrip.CompletedTripActivity"

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="app_name">Inland Pilot</string>
@@ -166,7 +167,7 @@
     <string name="no_completed_trip">No Completed Trip found</string>
     <string name="register_user">Register User</string>
     <string name="assigned_date">"Assigned Date: "</string>
-    <string name="delivery_expected">"Expected Delivery: "</string>
+    <string name="delivery_expected">"Delivery Expected: "</string>
     <string name="reached_to_start">Reached to start Location</string>
     <string name="reached_to_dest">Reached to Destination Location</string>
     <string name="loading_image">Loading Image</string>

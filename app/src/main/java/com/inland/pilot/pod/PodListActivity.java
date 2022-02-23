@@ -74,6 +74,7 @@ public class PodListActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<TripListModel> call, Response<TripListModel> response) {
                     if (response.isSuccessful()) {
+                            Log.d("podlist",response.body().toString());
                         if (response.body() != null && response.body().getTripListModels() != null &&
                                 !response.body().getTripListModels().isEmpty()) {
                             tripMasterModelList = response.body().getTripListModels();
