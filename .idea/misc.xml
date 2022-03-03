@@ -6,6 +6,7 @@
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/drawable/back_btn_bg2.xml" value="0.26614583333333336" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/drawable/ic_location.xml" value="0.26614583333333336" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/drawable/settings.xml" value="0.26614583333333336" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/a.xml" value="0.12708333333333333" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_bank_details.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_route.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_add_trip.xml" value="0.25" />
@@ -34,7 +35,7 @@
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_registration.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_settings.xml" value="0.2359375" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
-        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_upcoming_trip.xml" value="0.4743083003952569" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_upcoming_trip.xml" value="0.394" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/activity_vehicle_docs_upload.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/app_bar_navigation.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/bank_row.xml" value="0.25" />
@@ -60,7 +61,7 @@
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/pod_list_row.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/register_type_dialog.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/route_list_row.xml" value="0.25" />
-        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_allotted_list_row.xml" value="0.25" />
+        <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_allotted_list_row.xml" value="0.264" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_completed_list_row.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_ongoing_list_row.xml" value="0.25" />
         <entry key="..\:/Android Projects/new pkg name 2/working/InlandPilot-NEW-PKG-1.2/InlandPilot/app/src/main/res/layout/trip_reach_final_list_row.xml" value="0.25" />

@@ -10,8 +10,8 @@ android {
         applicationId "com.inland.pilot"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 27
-        versionName "1.4.4"
+        versionCode 28
+        versionName "1.4.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

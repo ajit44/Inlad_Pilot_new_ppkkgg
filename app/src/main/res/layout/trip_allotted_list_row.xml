@@ -26,16 +26,36 @@
             android:layout_marginHorizontal="6dp">
 
             <TextView
+                android:layout_marginStart="20dp"
                 android:id="@+id/tvTripId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="18dp"
                 android:textSize="12dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
+            <TextView
+                android:layout_marginEnd="20dp"
+                android:id="@+id/tvAssignedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E6000000"
+                android:text="13/32/1999"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/tvAssignedTime"
+                app:layout_constraintTop_toTopOf="@id/tvTripId" />
+            <TextView
+                android:layout_marginEnd="20dp"
+                android:id="@+id/tvAssignedTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E6000000"
+                android:text="..."
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTripId" />
 
             <!--  ____Track dots layout-->
             <TextView
@@ -184,9 +204,10 @@
                     android:layout_weight="1">
 
                     <ImageView
+                        android:layout_marginTop="30dp"
                         android:id="@+id/hint_truck_icon"
                         android:layout_width="54dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/delivery_truck"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -236,68 +257,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/hint_total_km" />
 
-                    <TextView
-                        android:id="@+id/hintAssignedTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Assigned Time: "
-                        android:layout_marginTop="6dp"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hint_divider_1" />
 
-                    <TextView
-                        android:id="@+id/tvAssignedTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#E6000000"
-                        android:text="..."
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/hintAssignedTime"
-                        app:layout_constraintTop_toTopOf="@id/hintAssignedTime" />
-
-                    <TextView
-                        android:id="@+id/hint_blur_divider_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.4dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_600"
-                        android:elevation="-2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hintAssignedTime" />
-
-                    <TextView
-                        android:id="@+id/hint_box_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Assigned Date: "
-                        android:layout_marginTop="6dp"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hint_blur_divider_1" />
-
-                    <TextView
-                        android:id="@+id/tvAssignedDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#E6000000"
-                        android:text="13/32/1999"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/hint_box_icon"
-                        app:layout_constraintTop_toTopOf="@id/hint_box_icon" />
-                    <TextView
-                        android:id="@+id/hint_blur_divider_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.4dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_600"
-                        android:elevation="-2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hint_box_icon" />
 
 
                     <TextView
@@ -309,7 +269,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hint_blur_divider_2" />
+                        app:layout_constraintTop_toBottomOf="@id/hint_divider_1" />
 
                     <TextView
                         android:id="@+id/tvExpectedDate"

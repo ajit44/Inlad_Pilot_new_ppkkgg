@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:id="@+id/textView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/choose_language" />
+    <RadioGroup android:id="@+id/radioGroup" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <RadioButton android:textSize="14.0dip" android:id="@+id/radioEN" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:checked="false" android:text="  English" />
+        <RadioButton android:textSize="14.0dip" android:id="@+id/radioHI" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:checked="false" android:text="  हिंदी" />
+        <RadioButton android:textSize="14.0dip" android:id="@+id/radioMR" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:checked="false" android:text="  मराठी" />
+    </RadioGroup>
+    <com.google.android.material.button.MaterialButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/submit" android:onClick="submitLanguage" app:backgroundTint="@color/login_textbox_color" />
+</LinearLayout>

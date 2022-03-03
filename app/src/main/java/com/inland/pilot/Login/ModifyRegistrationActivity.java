@@ -403,7 +403,7 @@ public class ModifyRegistrationActivity extends AppCompatActivity {
         return m.matches();
     }
     private void validate(String registrationType, String deviceId) {
-        boolean isValidName = false, isValidMobileNo = false, isValidPanNo = false, isValidaAadharNo = false,
+        boolean isValidName = false, isValidMobileNo = false, isValidPanNo = true, isValidaAadharNo = true,
                 isValidAddress = false, isValidPinCode = false, isValidDlNo = false, isValidNoOfVehicle = false,
                 isValidStateCode = false, isValidBankName= false, isValidAcNo=false, isValidIfsc= false;
 
@@ -438,11 +438,10 @@ public class ModifyRegistrationActivity extends AppCompatActivity {
             isValidMobileNo = true;
         }*/
 
-        if (TextUtils.isEmpty(panNoStr)) {
-            binding.panNoTextLayout.setError(getResources().getString(R.string.enter_pan_no));
+        if (!TextUtils.isEmpty(panNoStr)) {
+            //binding.panNoTextLayout.setError(getResources().getString(R.string.enter_pan_no));
             //Toast.makeText(mCon, "" + getResources().getString(R.string.enter_pan_no), Toast.LENGTH_SHORT).show();
-        } else
-        {
+
             if(panNoStr.length()<10) {
                 binding.panNoTextLayout.setError("Enter 10 digit valid PAN no.");
             }
@@ -460,11 +459,10 @@ public class ModifyRegistrationActivity extends AppCompatActivity {
             }
         }
 
-        if (TextUtils.isEmpty(aadharNoStr)) {
-            binding.aadharNoTextLayout.setError(getResources().getString(R.string.enter_aadhar_no));
+        if (!TextUtils.isEmpty(aadharNoStr)) {
+            //binding.aadharNoTextLayout.setError(getResources().getString(R.string.enter_aadhar_no));
             //Toast.makeText(mCon, "" + getResources().getString(R.string.enter_aadhar_no), Toast.LENGTH_SHORT).show();
-        } else
-        {
+
             if(aadharNoStr.length()<12) {
                 binding.aadharNoTextLayout.setError("Enter 12 digit valid Adhar no.");
             }
