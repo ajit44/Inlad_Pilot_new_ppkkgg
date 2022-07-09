@@ -30,8 +30,11 @@ import androidx.databinding.DataBindingUtil;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.inland.pilot.MainActivity;
 import com.inland.pilot.Network.ApiClient;
 import com.inland.pilot.R;
@@ -553,7 +556,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 registrationModel = new RegistrationModel(aadharNoStr, addressStr, dlNoStr, nameStr,
                         noOfVehicleStr, mobileNoStr, panNoStr, pinCodeStr, "", "",
                         stateCodeStr, regType, bankACNo, bankName, bankIFSC);
-                registerUser(registrationModel, deviceId);
+                fetchFCMKey(registrationModel,deviceId);
+               // registerUser(registrationModel, deviceId);
             }
         } else if (registrationType.equalsIgnoreCase("driver")) {
             if (isValidName && isValidMobileNo && isValidPanNo && isValidaAadharNo && isValidAddress &&
@@ -561,7 +565,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 registrationModel = new RegistrationModel(aadharNoStr, addressStr, dlNoStr, nameStr,
                         "", mobileNoStr, panNoStr, pinCodeStr, "", "",
                         stateCodeStr, regType, bankACNo, bankName, bankIFSC);
-                registerUser(registrationModel, deviceId);
+                fetchFCMKey(registrationModel,deviceId);
+               // registerUser(registrationModel, deviceId);
             }
         }
     }
@@ -703,6 +708,28 @@ public class RegistrationActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.d("check", "getStateList: " + e.getMessage());
         }
+    }
+
+    public void fetchFCMKey(RegistrationModel registrationModel, String deviceId)
+    {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.d("fcm", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.e("FCM KEY",token);
+                        registrationModel.setFireBaseToken(token);
+                        registerUser(registrationModel, deviceId);
+                    }
+                });
     }
 
     private void registerUser(RegistrationModel regModel, String deviceId) {

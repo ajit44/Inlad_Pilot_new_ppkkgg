@@ -16,6 +16,15 @@ public class RegistrationModel {
     private String Accountno;
     private String BankName;
     private String IFSCCode;
+    private String FireBaseToken;
+
+    public String getFireBaseToken() {
+        return FireBaseToken;
+    }
+
+    public void setFireBaseToken(String fireBaseToken) {
+        FireBaseToken = fireBaseToken;
+    }
 
     public String getBankACNo() {
         return Accountno;

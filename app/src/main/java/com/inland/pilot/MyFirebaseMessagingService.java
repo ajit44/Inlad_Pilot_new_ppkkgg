@@ -19,7 +19,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CHANNEL_ID="notification_channel";
-    private static final String KEY_CHANNEL_NAME="in.inlandworldlogisticsmanagement";
+    private static final String KEY_CHANNEL_NAME="com.inland.pilot";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private RemoteViews getRemoteView(String title, String message) {
-        @SuppressLint("RemoteViewLayout") RemoteViews remoteViews= new RemoteViews("in.inlandworldlogisticsmanagement",R.layout.notification);
+        @SuppressLint("RemoteViewLayout") RemoteViews remoteViews= new RemoteViews("com.inland.pilot",R.layout.notification);
 
         remoteViews.setTextViewText(R.id.title, title);
         remoteViews.setTextViewText(R.id.message, message);

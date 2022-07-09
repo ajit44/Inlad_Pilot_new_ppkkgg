@@ -13,12 +13,16 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.inland.pilot.LoadImage.LoadUploadListActivity;
 import com.inland.pilot.Location.LocationActivity;
 import com.inland.pilot.Login.RegistrationActivity;
@@ -123,6 +127,12 @@ public class DashboardFragment extends Fragment {
                 startActivity(new Intent(mCon, PodListActivity.class));
             }
         });
+        binding.fcmTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         binding.SettingCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,4 +144,5 @@ public class DashboardFragment extends Fragment {
         });
         return binding.getRoot();
     }
+
 }
