@@ -24,10 +24,12 @@ import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.inland.pilot.ApiConstants;
 import com.inland.pilot.LoadIntemationNew.Model.LoadCity;
 import com.inland.pilot.LoadIntemationNew.Model.LoadState;
+import com.inland.pilot.Login.LoginDetailsModel;
 import com.inland.pilot.OriginOfLoads.AdapterOriginCitys;
 import com.inland.pilot.OriginOfLoads.CityModel;
 import com.inland.pilot.OriginOfLoads.StateModel;
 import com.inland.pilot.R;
+import com.inland.pilot.Util.PreferenceUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +43,8 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
     Context context;
     List<LoadState> StateList;
     List<LoadCity> cityList;
+    LoginDetailsModel loginDetailsModel;
+    String loginMobileNoStr;
 
     public AdapterOriginStats_new(Context context, List<LoadState> State) {
         this.context = context;
@@ -48,6 +52,14 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
         this.context = context;
         this.StateList =State;
         cityList = new ArrayList<>();
+
+        loginDetailsModel = PreferenceUtil.getUser();
+
+        if (loginDetailsModel.getP_MOBILENO() != null && !loginDetailsModel.getP_MOBILENO().isEmpty()) {
+            loginMobileNoStr = loginDetailsModel.getP_MOBILENO();
+        } else {
+            loginMobileNoStr = "";
+        }
     }
 
     @NonNull
@@ -64,7 +76,7 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
 
         holder.tvName.setText(StateList.get(position).getStateName());
         holder.tvCount.setText(StateList.get(position).getPendingLoad()+"");///////////////////// set city count
-
+        holder.progressBar.setVisibility(View.INVISIBLE);
         holder.layoutState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +88,7 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
                     holder.layoutCity.setVisibility(View.VISIBLE);
                     //holder.adapterCity = new AdapterOriginCitys(context,StateList.get(position).getCityList());
                     try {
-                        fetchState(holder.progressBar, holder.rvCityList);
+                        fetchState(holder.progressBar, holder.rvCityList, StateList.get(position).getStateCode());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -127,12 +139,12 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
 
     }
 
-    void fetchState(ProgressBar progressBar, RecyclerView rvCityList) throws JSONException {
+    void fetchState(ProgressBar progressBar, RecyclerView rvCityList, String stateCode) throws JSONException {
         progressBar.setVisibility(View.VISIBLE);
         final JSONObject request = new JSONObject();
-        request.put("UserID","18519");
-        request.put("StateCode","DL");
-        request.put("MobileNo","");
+        request.put("UserID",loginDetailsModel);
+        request.put("StateCode",stateCode);
+        request.put("MobileNo",loginMobileNoStr);
 
         AndroidNetworking.post(ApiConstants.Api_GetPendingLoadCityWise)
                 .addJSONObjectBody(request)
@@ -147,7 +159,7 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
                             cityList.clear();
                             Log.e("stated1",response.toString());
 
-
+                            progressBar.setVisibility(View.INVISIBLE);
                             if(!(0>=response.length())){
                                 for(int i=0;i<response.length();i++)
                                 {
@@ -172,6 +184,7 @@ public class AdapterOriginStats_new extends RecyclerView.Adapter<AdapterOriginSt
 
                     @Override
                     public void onError(ANError anError) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e("ERROR", anError.getMessage());
                         Toast.makeText(context, "errr "+anError, Toast.LENGTH_SHORT).show();
                     }

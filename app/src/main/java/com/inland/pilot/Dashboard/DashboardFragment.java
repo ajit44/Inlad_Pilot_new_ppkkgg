@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.inland.pilot.LoadImage.LoadUploadListActivity;
+import com.inland.pilot.LoadIntemationNew.LoadStateListActivity;
 import com.inland.pilot.Location.LocationActivity;
 import com.inland.pilot.Login.RegistrationActivity;
 import com.inland.pilot.MyTrip.OnGoingTripActivity;
@@ -96,7 +97,7 @@ public class DashboardFragment extends Fragment {
         binding.loadingAvailabilityCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           //    startActivity(new Intent(mCon, OriginOfLoadsActivity.class));
+               startActivity(new Intent(mCon, LoadStateListActivity.class));
             }
         });
 

@@ -29,9 +29,11 @@ import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.inland.pilot.ApiConstants;
 import com.inland.pilot.LoadIntemationNew.Model.LoadState;
+import com.inland.pilot.Login.LoginDetailsModel;
 import com.inland.pilot.OriginOfLoads.AdapterOriginStats;
 import com.inland.pilot.OriginOfLoads.OriginOfLoadsActivity;
 import com.inland.pilot.R;
+import com.inland.pilot.Util.PreferenceUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +48,8 @@ public class LoadStateListActivity extends AppCompatActivity {
     AdapterOriginStats_new adapterState;
     List<LoadState> StateList;
     ProgressBar progressBar;
+    LoginDetailsModel loginDetailsModel;
+    String loginMobileNoStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,13 @@ public class LoadStateListActivity extends AppCompatActivity {
         rvStateList.setLayoutManager(new LinearLayoutManager(this));
         rvStateList.setItemAnimator(new DefaultItemAnimator());
         StateList = new ArrayList<>();
+        loginDetailsModel = PreferenceUtil.getUser();
 
+        if (loginDetailsModel.getP_MOBILENO() != null && !loginDetailsModel.getP_MOBILENO().isEmpty()) {
+            loginMobileNoStr = loginDetailsModel.getP_MOBILENO();
+        } else {
+            loginMobileNoStr = "";
+        }
 
         try {
             fetchState();
@@ -72,9 +82,9 @@ public class LoadStateListActivity extends AppCompatActivity {
     void fetchState() throws JSONException {
         progressBar.setVisibility(View.VISIBLE);
         final JSONObject request = new JSONObject();
-        request.put("UserID","18519");
+        request.put("UserID",loginDetailsModel);
         request.put("StateCode","DL");
-        request.put("MobileNo","");
+        request.put("MobileNo",loginMobileNoStr);
 
         AndroidNetworking.post(ApiConstants.Api_GetPendingLoadStateWise)
                 .addJSONObjectBody(request)

@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permission required for Reading Writing SD Card/Memory -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
@@ -33,11 +34,7 @@
         <activity
             android:name=".LoadIntemationNew.LoadStateListActivity"
              >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Notification.NotificationActivity"
@@ -238,7 +235,11 @@
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Login.ForgetPinActivity"
